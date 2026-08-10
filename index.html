@@ -1,1181 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CP Mini App</title>
+
+<title>CP Mine</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
 body{
-  margin:0;
-  min-height:100vh;
-  background:#050505;
-  color:white;
-  font-family:Arial,sans-serif;
+    margin:0;
+    background:#050505;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
 }
 
-.app{
-  max-width:500px;
-  margin:auto;
-  padding:15px 15px 100px;
+h2{
+    margin-top:25px;
 }
 
-/* TOP */
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:30px;
+#cp{
+    color:#e5b83f;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:bold;
-}
+.circle{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    margin:70px auto 25px;
 
-.total{
-  background:#111;
-  border:1px solid #d5aa38;
-  border-radius:12px;
-  padding:7px 12px;
-}
-
-.total small{
-  display:block;
-  color:#777;
-  font-size:9px;
-}
-
-.total strong{
-  color:#e7bc48;
-  font-size:18px;
-}
-
-/* MINE */
-
-.title{
-  text-align:center;
-  color:#888;
-  font-size:13px;
-  margin-bottom:15px;
-}
-
-.circleBox{
-  width:290px;
-  height:290px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.glow{
-  position:absolute;
-  width:250px;
-  height:250px;
-  border-radius:50%;
-  background:#d5a92f;
-  opacity:.2;
-  filter:blur(30px);
-}
-
-.mineButton{
-  width:225px;
-  height:225px;
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #555,
-      #222 30%,
-      #080808 75%
+    background:radial-gradient(
+        circle at 35% 25%,
+        #555,
+        #222 35%,
+        #050505 75%
     );
 
-  border:7px solid #d7aa35;
+    border:7px solid #d7aa35;
 
-  box-shadow:
-    0 0 0 4px #000,
-    0 0 0 7px #80631b,
-    0 0 40px rgba(220,175,50,.45),
-    inset 0 -30px 45px #000;
+    box-shadow:
+        0 0 20px #d7aa35,
+        0 0 50px rgba(215,170,53,.35);
 
-  color:white;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 
-  cursor:pointer;
-  user-select:none;
-  position:relative;
-  z-index:2;
-
-  transition:transform .08s;
+    cursor:pointer;
+    user-select:none;
 }
 
-.mineButton:active{
-  transform:scale(.93);
+.circle:active{
+    transform:scale(.94);
 }
 
-.mineButton.disabled{
-  opacity:.5;
+.mine{
+    color:#e5b83f;
+    font-weight:bold;
+    font-size:18px;
 }
 
-.mineIcon{
-  font-size:27px;
+.number{
+    font-size:42px;
+    font-weight:bold;
+    margin:8px;
 }
 
-.mineText{
-  color:#e7bd49;
-  font-weight:bold;
-  letter-spacing:2px;
+.small{
+    color:#777;
+    font-size:11px;
 }
-
-.mineNumber{
-  font-size:40px;
-  font-weight:900;
-  margin:5px;
-}
-
-.mineSmall{
-  color:#777;
-  font-size:10px;
-}
-
-/* FLOAT */
-
-.plus{
-  position:absolute;
-  right:10px;
-  top:20px;
-  color:#edc248;
-  font-size:23px;
-  font-weight:bold;
-  opacity:0;
-  z-index:5;
-}
-
-.plus.show{
-  animation:plus .7s;
-}
-
-@keyframes plus{
-  0%{
-    opacity:0;
-    transform:translateY(15px);
-  }
-  20%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:translateY(-50px);
-  }
-}
-
-/* CAPACITY */
 
 .capacity{
-  max-width:320px;
-  margin:10px auto 20px;
-}
-
-.capacityTop{
-  display:flex;
-  justify-content:space-between;
-  color:#888;
-  font-size:11px;
-  margin-bottom:6px;
-}
-
-.capacityTop b{
-  color:#e6bb45;
+    color:#aaa;
 }
 
 .bar{
-  height:9px;
-  background:#222;
-  border-radius:20px;
-  overflow:hidden;
+    width:280px;
+    height:10px;
+    background:#222;
+    border-radius:20px;
+    margin:10px auto;
+    overflow:hidden;
 }
 
 .fill{
-  height:100%;
-  background:linear-gradient(90deg,#997019,#efc54b);
-  width:100%;
-}
-
-.timer{
-  text-align:center;
-  color:#777;
-  font-size:11px;
-  margin-top:8px;
-}
-
-/* CARDS */
-
-.card{
-  background:#111;
-  border:1px solid #292929;
-  border-radius:18px;
-  padding:17px;
-  margin-top:15px;
-}
-
-.card h2{
-  margin:0 0 10px;
-  font-size:18px;
-}
-
-.desc{
-  color:#999;
-  line-height:1.7;
-  font-size:13px;
-}
-
-.stats{
-  display:flex;
-  gap:10px;
-  margin-top:12px;
-}
-
-.stat{
-  flex:1;
-  background:#191919;
-  border-radius:12px;
-  padding:11px;
-  text-align:center;
-}
-
-.stat small{
-  display:block;
-  color:#777;
-  font-size:9px;
-}
-
-.stat b{
-  display:block;
-  color:#e5b83f;
-  font-size:18px;
-  margin-top:4px;
-}
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:13px;
-  width:100%;
-  margin-top:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.gold{
-  background:linear-gradient(135deg,#b98b20,#edc34c);
-  color:#111;
-}
-
-/* OTHER PAGES */
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.gameArea{
-  height:330px;
-  background:#0c0c0c;
-  border:1px solid #333;
-  border-radius:15px;
-  position:relative;
-  overflow:hidden;
-  margin-top:12px;
-}
-
-.coin{
-  position:absolute;
-  font-size:32px;
-  cursor:pointer;
-}
-
-/* NAV */
-
-.nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:500px;
-  height:75px;
-  background:#0b0b0b;
-  border-top:1px solid #333;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  z-index:100;
-}
-
-.nav button{
-  background:none;
-  color:#777;
-  margin:0;
-  padding:5px 2px;
-  font-size:10px;
-}
-
-.nav button span{
-  display:block;
-  font-size:20px;
-  margin-bottom:3px;
-}
-
-.nav button.active{
-  color:#e6ba45;
+    height:100%;
+    width:100%;
+    background:#e5b83f;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<h2>
+TOTAL CP:
+<span id="cp">0</span>
+</h2>
 
-<!-- MINE -->
+<div
+    class="circle"
+    onclick="mineCP()"
+>
 
-<section id="mine" class="page active">
+    <div>◉</div>
 
-  <div class="top">
-
-    <div class="logo">
-      CP MINI APP
-    </div>
-
-    <div class="total">
-      <small>TOTAL CP</small>
-      <strong id="totalCP">0</strong>
-    </div>
-
-  </div>
-
-  <div class="title">
-    Tap the circle to mine CP
-  </div>
-
-  <div class="circleBox">
-
-    <div class="glow"></div>
-
-    <div
-      id="mineButton"
-      class="mineButton"
-      onclick="mine()"
-    >
-
-      <div class="mineIcon">◉</div>
-
-      <div class="mineText">
+    <div class="mine">
         MINE
-      </div>
+    </div>
 
-      <div
-        id="mineNumber"
-        class="mineNumber"
-      >
+    <div
+        id="left"
+        class="number"
+    >
         1000
-      </div>
+    </div>
 
-      <div class="mineSmall">
+    <div class="small">
         CP AVAILABLE
-      </div>
-
     </div>
-
-    <div
-      id="plus"
-      class="plus"
-    >
-      +1 CP
-    </div>
-
-  </div>
-
-  <div class="capacity">
-
-    <div class="capacityTop">
-      <span>MINING CAPACITY</span>
-
-      <b>
-        <span id="capacity">1000</span>
-        / 1000
-      </b>
-    </div>
-
-    <div class="bar">
-      <div
-        id="fill"
-        class="fill"
-      ></div>
-    </div>
-
-    <div
-      id="timer"
-      class="timer"
-    >
-      Ready to mine
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📊 Account</h2>
-
-    <div class="stats">
-
-      <div class="stat">
-        <small>LEVEL</small>
-        <b id="level">1</b>
-      </div>
-
-      <div class="stat">
-        <small>SCORE</small>
-        <b id="score">0</b>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- STORE -->
-
-<section id="store" class="page">
-
-  <div class="top">
-    <div class="logo">STORE</div>
-
-    <div class="total">
-      <small>TOTAL CP</small>
-      <strong id="storeCP">0</strong>
-    </div>
-  </div>
-
-  <div class="card">
-
-    <h2>🛒 CP Store</h2>
-
-    <div class="desc">
-      Use Score to increase your CP limit.
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <small>SCORE</small>
-        <b id="storeScore">0</b>
-      </div>
-
-      <div class="stat">
-        <small>NEXT COST</small>
-        <b id="cost">10000</b>
-      </div>
-
-    </div>
-
-    <button
-      class="gold"
-      onclick="upgrade()"
-    >
-      +500 CP LIMIT
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- GAME -->
-
-<section id="games" class="page">
-
-  <div class="top">
-    <div class="logo">GAMES</div>
-
-    <div class="total">
-      <small>SCORE</small>
-      <strong id="gameScore">0</strong>
-    </div>
-  </div>
-
-  <div class="card">
-
-    <h2>🪙 Coin Game</h2>
-
-    <div class="desc">
-      Collect up to 500 coins.
-      Each coin gives 1 Score.
-      After 500 coins, wait 4 hours.
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <small>COLLECTED</small>
-        <b id="coins">0</b>
-      </div>
-
-      <div class="stat">
-        <small>REMAINING</small>
-        <b id="remaining">500</b>
-      </div>
-
-    </div>
-
-    <div
-      id="gameTimer"
-      class="timer"
-    >
-      Ready
-    </div>
-
-    <div
-      id="gameArea"
-      class="gameArea"
-    ></div>
-
-    <button
-      class="gold"
-      onclick="startGame()"
-    >
-      START GAME
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- CHANNELS -->
-
-<section id="channels" class="page">
-
-  <div class="top">
-    <div class="logo">CHANNELS</div>
-  </div>
-
-  <div class="card">
-
-    <h2>📢 Channel Reward</h2>
-
-    <div class="desc">
-      Join the channel and receive
-      500 CP.
-    </div>
-
-    <button
-      class="gold"
-      onclick="joinChannel()"
-    >
-      JOIN CHANNEL
-    </button>
-
-    <button
-      class="gold"
-      onclick="claimChannel()"
-    >
-      CLAIM 500 CP
-    </button>
-
-    <div
-      id="channelMessage"
-      class="timer"
-    ></div>
-
-  </div>
-
-</section>
-
-
-<!-- WALLET -->
-
-<section id="wallet" class="page">
-
-  <div class="top">
-    <div class="logo">WALLET</div>
-  </div>
-
-  <div class="card">
-
-    <h2>💼 TON Wallet</h2>
-
-    <div class="desc">
-      Connect your TON wallet.
-    </div>
-
-    <button
-      class="gold"
-      onclick="connectWallet()"
-    >
-      CONNECT WALLET
-    </button>
-
-    <div
-      id="walletMessage"
-      class="timer"
-    >
-      Wallet not connected
-    </div>
-
-  </div>
-
-</section>
 
 </div>
 
+<div class="capacity">
+    CAPACITY:
+    <span id="capacity">1000</span>
+    / 1000
+</div>
 
-<!-- NAVIGATION -->
+<div class="bar">
+    <div
+        id="fill"
+        class="fill"
+    ></div>
+</div>
 
-<div class="nav">
-
-  <button
-    class="active"
-    onclick="showPage('mine',this)"
-  >
-    <span>⛏️</span>
-    Mine
-  </button>
-
-  <button
-    onclick="showPage('store',this)"
-  >
-    <span>🛒</span>
-    Store
-  </button>
-
-  <button
-    onclick="showPage('games',this)"
-  >
-    <span>🎮</span>
-    Games
-  </button>
-
-  <button
-    onclick="showPage('channels',this)"
-  >
-    <span>📢</span>
-    Channels
-  </button>
-
-  <button
-    onclick="showPage('wallet',this)"
-  >
-    <span>💼</span>
-    Wallet
-  </button>
-
+<div id="message">
+    Ready to mine
 </div>
 
 
 <script>
 
-/* =========================
-   SAVED DATA
-========================= */
+let cp = 0;
+let mining = 1000;
 
-let cp =
-Number(localStorage.getItem("cp")) || 0;
+function mineCP(){
 
-let score =
-Number(localStorage.getItem("score")) || 0;
+    if(mining <= 0){
 
-let cpLimit =
-Number(localStorage.getItem("cpLimit")) || 1000;
+        document.getElementById("message").innerText =
+        "Mining finished. Wait 1 hour.";
 
-let nextCost =
-Number(localStorage.getItem("nextCost")) || 10000;
-
-let miningLeft =
-localStorage.getItem("miningLeft");
-
-if(miningLeft === null){
-  miningLeft = 1000;
-}else{
-  miningLeft = Number(miningLeft);
-}
-
-let rechargeTime =
-Number(localStorage.getItem("rechargeTime")) || 0;
-
-
-/* =========================
-   MINE
-========================= */
-
-function mine(){
-
-  checkRecharge();
-
-  if(miningLeft <= 0){
-
-    alert(
-      "Mining is empty. Wait 1 hour."
-    );
-
-    return;
-  }
-
-  cp++;
-  miningLeft--;
-
-  if(miningLeft === 0){
-    rechargeTime = Date.now();
-  }
-
-  save();
-  update();
-
-  const plus =
-    document.getElementById("plus");
-
-  plus.classList.remove("show");
-
-  void plus.offsetWidth;
-
-  plus.classList.add("show");
-}
-
-
-/* =========================
-   RECHARGE
-========================= */
-
-function checkRecharge(){
-
-  if(miningLeft >= 1000){
-    return;
-  }
-
-  if(!rechargeTime){
-    return;
-  }
-
-  const passed =
-    Date.now() - rechargeTime;
-
-  if(passed >= 3600000){
-
-    miningLeft = 1000;
-    rechargeTime = 0;
-
-    save();
-  }
-}
-
-
-/* =========================
-   UPGRADE
-========================= */
-
-function upgrade(){
-
-  if(score < nextCost){
-
-    alert(
-      "You need " +
-      nextCost.toLocaleString() +
-      " Score."
-    );
-
-    return;
-  }
-
-  score -= nextCost;
-
-  cpLimit += 500;
-
-  nextCost += 5000;
-
-  save();
-  update();
-
-  alert(
-    "+500 CP limit added!"
-  );
-}
-
-
-/* =========================
-   PAGES
-========================= */
-
-function showPage(id,button){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      p => p.classList.remove("active")
-    );
-
-  document
-    .getElementById(id)
-    .classList.add("active");
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(
-      b => b.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-  update();
-}
-
-
-/* =========================
-   COIN GAME
-========================= */
-
-let coins =
-Number(localStorage.getItem("coins")) || 0;
-
-let gameStart =
-Number(localStorage.getItem("gameStart")) || 0;
-
-function gameReady(){
-
-  if(!gameStart){
-    return true;
-  }
-
-  return Date.now() - gameStart >= 14400000;
-}
-
-
-function startGame(){
-
-  if(!gameReady()){
-
-    alert(
-      "The game is still on cooldown."
-    );
-
-    return;
-  }
-
-  coins = 0;
-  gameStart = Date.now();
-
-  save();
-
-  document.getElementById(
-    "gameArea"
-  ).innerHTML = "";
-
-  spawnCoin();
-
-  update();
-}
-
-
-function spawnCoin(){
-
-  if(coins >= 500){
-    return;
-  }
-
-  const area =
-    document.getElementById(
-      "gameArea"
-    );
-
-  const coin =
-    document.createElement("div");
-
-  coin.className = "coin";
-  coin.textContent = "🪙";
-
-  coin.style.left =
-    Math.random() * 88 + "%";
-
-  coin.style.top =
-    Math.random() * 85 + "%";
-
-  coin.onclick = function(){
-
-    coins++;
-    score++;
-
-    coin.remove();
-
-    save();
-    update();
-
-    if(coins < 500){
-
-      setTimeout(
-        spawnCoin,
-        60
-      );
-
-    }else{
-
-      alert(
-        "500 coins collected!"
-      );
-
+        return;
     }
-  };
 
-  area.appendChild(coin);
+    cp = cp + 1;
+    mining = mining - 1;
+
+    document.getElementById("cp").innerText =
+    cp;
+
+    document.getElementById("left").innerText =
+    mining;
+
+    document.getElementById("capacity").innerText =
+    mining;
+
+    document.getElementById("fill").style.width =
+    (mining / 1000 * 100) + "%";
+
 }
 
+</script>
 
-/* =========================
-   CHANNEL
-========================= */
-
-function joinChannel(){
-
-  /*
-   Replace YOUR_CHANNEL with
-   your real Telegram username.
-  */
-
-  window.open(
-    "https://t.me/YOUR_CHANNEL",
-    "_blank"
-  );
-}
-
-
-function claimChannel(){
-
-  if(
-    localStorage.getItem(
-      "channelReward"
-    ) === "yes"
-  ){
-
-    document.getElementById(
-      "channelMessage"
-    ).textContent =
-      "Reward already claimed.";
-
-    return;
-  }
-
-  cp += 500;
-
-  localStorage.setItem(
-    "channelReward",
-    "yes"
-  );
-
-  save();
-  update();
-
-  document.getElementById(
-    "channelMessage"
-  ).textContent =
-    "+500 CP received!";
-}
-
-
-/* =========================
-   WALLET
-========================= */
-
-function connectWallet(){
-
-  document.getElementById(
-    "walletMessage"
-  ).textContent =
-    "TON Connect will be added here.";
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-function save(){
-
-  localStorage.setItem(
-    "cp",
-    cp
-  );
-
-  localStorage.setItem(
-    "score",
-    score
-  );
-
-  localStorage.setItem(
-    "cpLimit",
-    cpLimit
-  );
-
-  localStorage.setItem(
-    "nextCost",
-    nextCost
-  );
-
-  localStorage.setItem(
-    "miningLeft",
-    miningLeft
-  );
-
-  localStorage.setItem(
-    "rechargeTime",
-    rechargeTime
-  );
-
-  localStorage.setItem(
-    "coins",
-    coins
-  );
-
-  localStorage.setItem(
-    "gameStart",
-    gameStart
-  );
-}
-
-
-/* =========================
-   UPDATE
-========================= */
-
-function update(){
-
-  checkRecharge();
-
-  document.getElementById(
-    "totalCP"
-  ).textContent =
-    cp.toLocaleString();
-
-  document.getElementById(
-    "storeCP"
-  ).textContent =
-    cp.toLocaleString();
-
-  document.getElementById(
-    "mineNumber"
-  ).textContent =
-    miningLeft.toLocaleString();
-
-  document.getElementById(
-    "capacity"
-  ).textContent =
-    miningLeft.toLocaleString();
-
-  document.getElementById(
-    "fill"
-  ).style.width =
-    (miningLeft / 1000 * 100) + "%";
-
-  document.getElementById(
-    "score"
-  ).textContent =
-    score.toLocaleString();
-
-  document.getElementById(
-    "level"
-  ).textContent =
-    Math.floor(
-      cp / 15000
-    ) + 1;
-
-  document.getElementById(
-    "storeScore"
-  ).textContent =
-    score.toLocaleString();
-
-  document.getElementById(
-    "cost"
-  ).textContent =
-    nextCost.toLocaleString();
-
-  document.getElementById(
-    "gameScore"
-  ).textContent =
-    score.toLocaleString();
-
-  document.getElementById(
-    "coins"
-  ).textContent =
-    coins.toLocaleString();
-
-  document.getElementById(
-    "remaining"
-  ).textContent =
-    (500 - coins).toLocaleString();
-
-
-  /* MINE TIMER */
-
-  const timer =
-    document.getElementById(
-      "timer"
-    );
-
-  if(miningLeft > 0){
-
-    timer.textContent =
-      "Ready to mine";
-
-  }else{
-
-    let left =
-      3600000 -
-      (Date.now() - rechargeTime);
-
-    if(left <= 0){
-
-      miningLeft = 1000;
-      rechargeTime = 0;
-
-      save();
-
-      timer.textContent =
-        "Ready to mine";
-
-    }else{
-
-      let minutes =
-        Math.floor(left / 60000);
-
-      let seconds =
-        Math.floor(
-          (left % 60000) / 1000
-        );
-
-      timer.textContent =
-        "Recharge in " +
-        minutes +
-        "m " +
-        String(seconds).padStart(2,"0") +
-        "s";
-    }
-  }
-
-
-  /* GAME TIMER */
-
-  const gameTimer =
-    document.getElementById(
-      "gameTimer"
+</body>
+</html>
