@@ -201,15 +201,8 @@ if(!playerId){
 }
 
 const KEY="arshan_coin_local_v2";
-  const SUPABASE_URL = "PROJECT_URL_خودت";
-const SUPABASE_KEY = "PUBLISHABLE_KEY_خودت";
-
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-const SUPABASE_URL = "...";
-const SUPABASE_KEY = "...";
+  const SUPABASE_URL = "https://....";
+const SUPABASE_KEY = "sb_publishable_....";
 let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
 cp:0,
 limit:1000,
