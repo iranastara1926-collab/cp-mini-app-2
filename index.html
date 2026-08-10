@@ -2,89 +2,276 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CP Mini App</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
+*{box-sizing:border-box}
 body{
-  margin:0;
-  color:#fff;
-  font-family:Arial,Tahoma,sans-serif;
-  background:
-    radial-gradient(circle at 50% 0%,#292929,#090909 45%,#020202);
-  padding-bottom:90px;
+margin:0;
+background:radial-gradient(circle at top,#292929,#050505 60%);
+color:white;
+font-family:Arial,sans-serif;
+padding-bottom:85px
 }
-
-.app{
-  width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:15px;
-}
-
+.app{max-width:500px;margin:auto;padding:15px}
 .page{display:none}
 .page.active{display:block}
 
-/* TOP */
-
 .top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
+}
+.logo{font-size:22px;font-weight:bold}
+.cpbox{
+background:#111;
+border:1px solid #d2a52f;
+border-radius:13px;
+padding:7px 12px;
+text-align:right
+}
+.cpbox small{display:block;color:#777;font-size:9px}
+.cpbox b{color:#e5b83f;font-size:17px}
+
+.title{
+text-align:center;
+color:#888;
+font-size:12px;
+margin-bottom:15px
 }
 
-.logo{
-  font-size:22px;
-  font-weight:900;
-}
+/* MINE CIRCLE */
 
-.top-box{
-  background:#111;
-  border:1px solid #80631d;
-  border-radius:14px;
-  padding:7px 12px;
-  text-align:right;
-}
-
-.top-box small{
-  display:block;
-  color:#777;
-  font-size:9px;
-}
-
-.top-box b{
-  color:#e8bd45;
-  font-size:17px;
-}
-
-/* MINE */
-
-.mine-title{
-  text-align:center;
-  color:#888;
-  font-size:12px;
-  margin-bottom:18px;
-}
-
-.circle-wrap{
-  position:relative;
-  width:280px;
-  height:280px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.circle-area{
+position:relative;
+width:280px;
+height:280px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:center
 }
 
 .glow{
-  position:absolute;
-  width:250px;
-  height:250px;
-  border-radius:50%;
-  background
+position:absolute;
+width:245px;
+height:245px;
+border-radius:50%;
+background:#d6aa32;
+filter:blur(30px);
+opacity:.18
+}
+
+.mine{
+position:relative;
+width:225px;
+height:225px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 20%,#555,#222 30%,#090909 75%);
+border:7px solid #d7aa32;
+box-shadow:
+0 0 0 4px #080808,
+0 0 0 7px #856719,
+0 0 35px rgba(215,170,50,.5),
+inset 0 -25px 40px #000;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+user-select:none;
+transition:.12s
+}
+
+.mine:active{transform:scale(.94)}
+.mine.locked{opacity:.5;filter:grayscale(1)}
+
+.icon{font-size:25px}
+.mtitle{
+color:#e4b83f;
+font-weight:bold;
+letter-spacing:1px;
+margin-top:3px
+}
+.mnumber{
+font-size:42px;
+font-weight:900;
+margin:5px 0
+}
+.msmall{font-size:10px;color:#777}
+
+.float{
+position:absolute;
+right:8px;
+top:20px;
+color:#efc34a;
+font-size:22px;
+font-weight:bold;
+opacity:0
+}
+.float.show{animation:up .7s}
+@keyframes up{
+0%{opacity:0;transform:translateY(15px)}
+25%{opacity:1}
+100%{opacity:0;transform:translateY(-50px)}
+}
+
+/* CAPACITY */
+
+.capacity{
+max-width:320px;
+margin:10px auto
+}
+.caphead{
+display:flex;
+justify-content:space-between;
+font-size:11px;
+color:#888;
+margin-bottom:6px
+}
+.caphead b{color:#e4b83f}
+.bar{
+height:9px;
+background:#222;
+border-radius:20px;
+overflow:hidden
+}
+.fill{
+height:100%;
+width:100%;
+background:linear-gradient(90deg,#997018,#efc54b);
+transition:.2s
+}
+.timer{
+text-align:center;
+font-size:11px;
+color:#777;
+margin-top:7px
+}
+
+/* CARDS */
+
+.card{
+background:#111;
+border:1px solid #292929;
+border-radius:18px;
+padding:17px;
+margin-top:15px
+}
+.card h2{margin:0 0 9px;font-size:18px}
+.desc{color:#999;font-size:13px;line-height:1.7}
+
+.stats{
+display:flex;
+gap:9px;
+margin-top:12px
+}
+.stat{
+flex:1;
+background:#191919;
+border:1px solid #292929;
+border-radius:13px;
+padding:11px;
+text-align:center
+}
+.stat small{display:block;color:#777;font-size:9px}
+.stat b{display:block;color:#e4b83f;font-size:18px;margin-top:5px}
+
+button{
+width:100%;
+border:0;
+border-radius:13px;
+padding:13px;
+margin-top:9px;
+font-weight:bold;
+font-size:14px;
+background:#292929;
+color:white
+}
+.gold{
+background:linear-gradient(135deg,#b88a20,#edc24b);
+color:#111
+}
+.blue{background:#315fd7}
+
+/* GAME */
+
+.gamearea{
+height:360px;
+margin-top:12px;
+position:relative;
+overflow:hidden;
+border-radius:17px;
+border:1px solid #333;
+background:radial-gradient(circle,#202020,#060606)
+}
+.coin{
+position:absolute;
+font-size:31px;
+cursor:pointer
+}
+
+/* NAV */
+
+.nav{
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:100%;
+max-width:500px;
+height:75px;
+background:#0b0b0b;
+border-top:1px solid #333;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+z-index:10
+}
+.nav button{
+background:none;
+margin:0;
+padding:5px 2px;
+color:#777;
+font-size:10px
+}
+.nav button span{
+display:block;
+font-size:20px;
+margin-bottom:3px
+}
+.nav button.active{color:#e5b83f}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- MINE -->
+<section id="mine" class="page active">
+
+<div class="top">
+<div class="logo">CP MINI APP</div>
+<div class="cpbox">
+<small>TOTAL CP</small>
+<b id="totalCP">0</b>
+</div>
+</div>
+
+<div class="title">Tap the circle to mine CP</div>
+
+<div class="circle-area">
+<div class="glow"></div>
+
+<div id="mineCircle" class="mine" onclick="mineCP()">
+<div class="icon">◉</div>
+<div class="mtitle">MINE</div>
+<div id="mineLeft" class="mnumber">1000</div>
+<div class="msmall">CP AVAILABLE</div>
+</div>
+
+<div id="float" class="float">+1 CP</
