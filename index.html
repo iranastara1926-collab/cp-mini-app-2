@@ -184,33 +184,23 @@ button{font-family:inherit}
 <div class="toast" id="toast"></div>
 
 <script>
+
 // ===============================
 // SUPABASE
 // ===============================
+
 const SUPABASE_URL="https://oexoqpzasniqyimbrww.supabase.co";
 
-// !!! فقط این مقدار را با Publishable Key خودت عوض کن !!!
-const SUPABASE_KEY="PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+const SUPABASE_KEY="sb_publishable_BCQbZkPZvIsivwuUSZlEeg_c7fh8LRu";
 
 let playerId=localStorage.getItem("arshan_device_id");
 
 if(!playerId){
-  playerId="device_"+crypto.randomUUID();
-  localStorage.setItem("arshan_device_id",playerId);
+playerId="device_"+crypto.randomUUID();
+localStorage.setItem("arshan_device_id",playerId);
 }
 
 const KEY="arshan_coin_local_v2";
-
-  const SUPABASE_URL = 
-    "https://oexoqpzasniqyimbrwwh.supabase.co/rest/v1/″;
-    
-const SUPABASE_KEY = 
-  "sb_publishable_vJNzK7PK0zCdIOH0o8l13Q_A8LES_sp″;
-
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
 let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
 cp:0,
@@ -231,9 +221,9 @@ localStorage.setItem(KEY,JSON.stringify(data));
 }
 
 async function dbLoad(){
-if(SUPABASE_KEY==="PASTE_YOUR_PUBLISHABLE_KEY_HERE")return;
 
 try{
+
 const res=await fetch(
 SUPABASE_URL+"/rest/v1/players?device_id=eq."+encodeURIComponent(playerId)+"&select=*",
 {
@@ -244,11 +234,15 @@ Authorization:"Bearer "+SUPABASE_KEY
 }
 );
 
-if(!res.ok)return;
+if(!res.ok){
+console.log("Supabase load failed:",res.status);
+return;
+}
 
 const rows=await res.json();
 
 if(rows.length){
+
 const p=rows[0];
 
 data.cp=p.cp;
@@ -262,26 +256,36 @@ data.invites=p.invites;
 
 saveLocal();
 updateUI();
+
 }else{
+
 await dbSave();
+
 }
+
 }catch(e){
+
 console.log("Supabase load error",e);
+
 }
+
 }
 
 let dbSaving=false;
 
 async function dbSave(){
+
 saveLocal();
 
-if(SUPABASE_KEY==="PASTE_YOUR_PUBLISHABLE_KEY_HERE")return;
 if(dbSaving)return;
 
 dbSaving=true;
 
 try{
-await fetch(SUPABASE_URL+"/rest/v1/players?on_conflict=device_id",{
+
+await fetch(
+SUPABASE_URL+"/rest/v1/players?on_conflict=device_id",
+{
 method:"POST",
 headers:{
 apikey:SUPABASE_KEY,
@@ -301,12 +305,17 @@ skin:data.skin,
 invites:data.invites,
 updated_at:new Date().toISOString()
 })
-});
+}
+);
+
 }catch(e){
+
 console.log("Supabase save error",e);
+
 }
 
 dbSaving=false;
+
 }
 
 function level(){
@@ -329,19 +338,29 @@ document.getElementById("gameScore").textContent=format(data.gameScore);
 document.getElementById("inviteCount").textContent=format(data.invites);
 document.getElementById("levelText").textContent="LEVEL "+lv;
 
-const pct=Math.max(0,Math.min(100,(data.left/data.limit)*100));
+const pct=Math.max(
+0,
+Math.min(100,(data.left/data.limit)*100)
+);
+
 document.getElementById("mineBar").style.width=pct+"%";
 
-document.getElementById("nextLevel").textContent=format((lv+1)*15000)+" CP";
+document.getElementById("nextLevel").textContent=
+format((lv+1)*15000)+" CP";
 
-document.getElementById("upgrade2").disabled=lv<2||data.limit>=1500||data.gameScore<5000;
-document.getElementById("upgrade3").disabled=lv<3||data.limit>=2000||data.gameScore<10000;
+document.getElementById("upgrade2").disabled=
+lv<2||data.limit>=1500||data.gameScore<5000;
+
+document.getElementById("upgrade3").disabled=
+lv<3||data.limit>=2000||data.gameScore<10000;
 
 document.getElementById("gameLimitText").textContent=
 "Coins: "+format(data.gameCoins)+" / "+format(data.gameMax)+" • Recharge every 2 hours";
 
 applySkin();
+
 saveLocal();
+
 }
 
 function update(){
@@ -352,8 +371,11 @@ dbSave();
 function mineCP(e){
 
 if(data.left<=0){
+
 showToast("Mining limit finished. Recharge started.");
+
 return;
+
 }
 
 data.cp++;
@@ -363,29 +385,40 @@ data.clicks++;
 showPlus(e);
 
 if(data.clicks>=10){
+
 data.clicks=0;
+
 showToast("❤️ Nice!");
+
 }
 
 if(data.left===0){
+
 data.lastMine=Date.now();
+
 showToast("Mining limit reached.");
+
 }
 
 update();
+
 }
 
 function showPlus(e){
 
 const p=document.createElement("div");
+
 p.className="plus";
+
 p.textContent="+1 CP";
+
 p.style.left=(e.clientX||innerWidth/2)+"px";
 p.style.top=(e.clientY||innerHeight/2)+"px";
 
 document.body.appendChild(p);
 
 setTimeout(()=>p.remove(),750);
+
 }
 
 function processMineRecharge(){
@@ -393,20 +426,38 @@ function processMineRecharge(){
 if(data.left>=data.limit||!data.lastMine)return;
 
 const hour=60*60*1000;
+
 const elapsed=Date.now()-data.lastMine;
-const recovered=Math.floor((elapsed/hour)*data.limit);
+
+const recovered=Math.floor(
+(elapsed/hour)*data.limit
+);
 
 if(recovered>0){
 
-data.left=Math.min(data.limit,data.left+recovered);
+data.left=Math.min(
+data.limit,
+data.left+recovered
+);
 
-if(data.left>=data.limit)data.lastMine=0;
-else data.lastMine=Date.now();
+if(data.left>=data.limit){
 
-update();
+data.lastMine=0;
+
+}else{
+
+data.lastMine=Date.now();
+
 }
 
-const remaining=Math.max(0,hour-(elapsed%hour));
+update();
+
+}
+
+const remaining=Math.max(
+0,
+hour-(elapsed%hour)
+);
 
 if(data.left<data.limit){
 
@@ -414,35 +465,49 @@ const m=Math.floor(remaining/60000);
 const s=Math.floor((remaining%60000)/1000);
 
 document.getElementById("rechargeText").textContent=
-"Recharge "+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+"Recharge "+
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
 
 }else{
+
 document.getElementById("rechargeText").textContent="Ready";
+
 }
+
 }
 
 function buyCapacity(requiredLevel,cost){
 
 if(level()<requiredLevel){
+
 showToast("You need Level "+requiredLevel);
+
 return;
+
 }
 
 if(data.gameScore<cost){
+
 showToast("Not enough Game Score");
+
 return;
+
 }
 
 if(requiredLevel===2&&data.limit>=1500)return;
 if(requiredLevel===3&&data.limit>=2000)return;
 
 data.gameScore-=cost;
+
 data.limit+=500;
+
 data.left+=500;
 
 showToast("+500 Mining Capacity");
 
 update();
+
 }
 
 const skinList=[
@@ -460,48 +525,83 @@ function renderSkins(){
 const box=document.getElementById("skins");
 
 box.innerHTML=skinList.map(s=>`
+
 <div class="store-item">
-<div class="skin-preview" style="background:${s[4]}">${s[3]}</div>
-<div class="skin-info">
-<strong>${s[0]}</strong>
-<div class="skin-price">${format(s[1])} Score</div>
+
+<div class="skin-preview" style="background:${s[4]}">
+${s[3]}
 </div>
-<button class="buy" onclick="buySkin('${s[0]}',${s[1]},'${s[2]}')">BUY</button>
-</div>`).join("");
+
+<div class="skin-info">
+
+<strong>${s[0]}</strong>
+
+<div class="skin-price">
+${format(s[1])} Score
+</div>
+
+</div>
+
+<button class="buy"
+onclick="buySkin('${s[0]}',${s[1]},'${s[2]}')">
+BUY
+</button>
+
+</div>
+
+`).join("");
+
 }
 
 function buySkin(name,cost,type){
 
 if(data.gameScore<cost){
+
 showToast("Not enough Game Score");
+
 return;
+
 }
 
 data.gameScore-=cost;
+
 data.skin=type;
 
 showToast(name+" Skin purchased!");
 
 update();
+
 }
 
 function applySkin(){
 
 const ring=document.querySelector(".mine-ring");
+
 if(!ring)return;
 
 const styles={
+
 default:"linear-gradient(135deg,#fff1a0,#b88619 25%,#ffd94d 48%,#6d4b0b 75%,#e5bd45)",
+
 color:"linear-gradient(135deg,#ff4d6d,#7b2cff,#21d4fd)",
+
 dragon:"linear-gradient(135deg,#1ed760,#163d25,#7a3b16)",
+
 ice:"linear-gradient(135deg,#8ee7ff,#ffffff,#78bfff)",
+
 cute:"linear-gradient(135deg,#ffb5d0,#fff,#ff8ab8)",
+
 chocolate:"linear-gradient(135deg,#5a2d19,#d18b54,#3a170c)",
+
 barbie:"linear-gradient(135deg,#ff5fa2,#ffb5db,#d83291)",
+
 fire:"linear-gradient(135deg,#ff3215,#ffd21f,#8e1600)"
+
 };
 
-ring.style.background=styles[data.skin]||styles.default;
+ring.style.background=
+styles[data.skin]||styles.default;
+
 }
 
 let gameTimer=null;
@@ -512,14 +612,19 @@ function startGame(){
 processGameRecharge();
 
 if(data.gameCoins<=0){
+
 showToast("Game limit finished.");
+
 return;
+
 }
 
 if(gameRunning)return;
 
 gameRunning=true;
+
 spawnCoin();
+
 }
 
 function spawnCoin(){
@@ -529,14 +634,19 @@ const area=document.getElementById("gameArea");
 area.innerHTML="";
 
 if(data.gameCoins<=0){
+
 gameRunning=false;
+
 update();
+
 return;
+
 }
 
 const c=document.createElement("div");
 
 c.className="game-coin";
+
 c.textContent="🪙";
 
 c.style.left=(Math.random()*82+3)+"%";
@@ -553,6 +663,7 @@ if(hit)return;
 hit=true;
 
 data.gameCoins--;
+
 data.gameScore+=5;
 
 showToast("+5 Game Score");
@@ -564,6 +675,7 @@ if(c.parentNode)c.remove();
 clearTimeout(gameTimer);
 
 spawnCoin();
+
 };
 
 gameTimer=setTimeout(()=>{
@@ -575,6 +687,7 @@ if(c.parentNode)c.remove();
 spawnCoin();
 
 },650);
+
 }
 
 function processGameRecharge(){
@@ -582,18 +695,34 @@ function processGameRecharge(){
 if(data.gameCoins>=data.gameMax||!data.lastGame)return;
 
 const twoHours=2*60*60*1000;
+
 const elapsed=Date.now()-data.lastGame;
-const recovered=Math.floor((elapsed/twoHours)*data.gameMax);
+
+const recovered=Math.floor(
+(elapsed/twoHours)*data.gameMax
+);
 
 if(recovered>0){
 
-data.gameCoins=Math.min(data.gameMax,data.gameCoins+recovered);
+data.gameCoins=Math.min(
+data.gameMax,
+data.gameCoins+recovered
+);
 
-if(data.gameCoins>=data.gameMax)data.lastGame=0;
-else data.lastGame=Date.now();
+if(data.gameCoins>=data.gameMax){
+
+data.lastGame=0;
+
+}else{
+
+data.lastGame=Date.now();
+
+}
 
 update();
+
 }
+
 }
 
 function telegramReward(){
@@ -609,17 +738,22 @@ data.cp+=500;
 showToast("+500 CP");
 
 update();
+
 }
 
 function openPage(id,btn){
 
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
 
-document.getElementById(id).classList.add("active");
+document.getElementById(id)
+.classList.add("active");
 
-document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".nav button")
+.forEach(b=>b.classList.remove("active"));
 
 if(btn)btn.classList.add("active");
+
 }
 
 function showToast(text){
@@ -627,6 +761,7 @@ function showToast(text){
 const t=document.getElementById("toast");
 
 t.textContent=text;
+
 t.classList.add("show");
 
 clearTimeout(window.toastTimer);
@@ -635,21 +770,29 @@ window.toastTimer=setTimeout(
 ()=>t.classList.remove("show"),
 1800
 );
+
 }
 
 function createInviteLink(){
 
-const base=location.href.split("?")[0].split("#")[0];
+const base=
+location.href.split("?")[0].split("#")[0];
 
-const code="ARSHAN"+
-Math.random().toString(36).slice(2,8).toUpperCase();
+const code=
+"ARSHAN"+
+Math.random()
+.toString(36)
+.slice(2,8)
+.toUpperCase();
 
 return base+"?ref="+code;
+
 }
 
 let inviteLink=createInviteLink();
 
-document.getElementById("inviteLink").textContent=inviteLink;
+document.getElementById("inviteLink")
+.textContent=inviteLink;
 
 async function shareInvite(){
 
@@ -658,9 +801,13 @@ if(navigator.share){
 try{
 
 await navigator.share({
+
 title:"Arshan Coin",
+
 text:"Join Arshan Coin and start mining CP!",
+
 url:inviteLink
+
 });
 
 showToast("Invite shared");
@@ -668,23 +815,32 @@ showToast("Invite shared");
 return;
 
 }catch(e){}
+
 }
 
 try{
 
-await navigator.clipboard.writeText(inviteLink);
+await navigator.clipboard
+.writeText(inviteLink);
 
 showToast("Invite link copied");
 
 }catch(e){
 
-prompt("Copy your invite link:",inviteLink);
+prompt(
+"Copy your invite link:",
+inviteLink
+);
+
 }
+
 }
 
 function handleReferral(){
 
-const params=new URLSearchParams(location.search);
+const params=
+new URLSearchParams(location.search);
+
 const ref=params.get("ref");
 
 if(!ref)return;
@@ -708,10 +864,12 @@ dbLoad();
 setInterval(()=>{
 
 processMineRecharge();
+
 processGameRecharge();
 
 },1000);
 
 </script>
+
 </body>
 </html>
