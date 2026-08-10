@@ -2,89 +2,375 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>بازی آنلاین</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CP Mini App</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
+  background:#0b0f17;
+  color:#fff;
   font-family:Tahoma,Arial,sans-serif;
-  background:#0b0b12;
-  color:white;
 }
+
 .container{
-  max-width:500px;
+  width:100%;
+  max-width:520px;
   margin:auto;
-  padding:20px;
+  padding:16px;
 }
-.header{
-  background:linear-gradient(135deg,#17172a,#24244a);
-  padding:20px;
-  border-radius:20px;
-  text-align:center;
-  margin-bottom:18px;
-}
-.score{
-  font-size:25px;
-  font-weight:bold;
-  margin-top:10px;
-  color:#ffd43b;
-}
+
 .card{
-  background:#171722;
-  border:1px solid #29293a;
-  border-radius:18px;
+  background:#151b27;
+  border:1px solid #263044;
+  border-radius:20px;
   padding:18px;
   margin-bottom:15px;
+  box-shadow:0 8px 25px rgba(0,0,0,.2);
 }
-.card h2{
-  margin-top:0;
+
+.title{
+  text-align:center;
+  font-size:25px;
+  font-weight:bold;
 }
+
+.big{
+  text-align:center;
+  font-size:35px;
+  font-weight:bold;
+  color:#ffd43b;
+  margin:12px 0;
+}
+
+.stat{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #252d3c;
+}
+
 button{
   width:100%;
   border:0;
-  border-radius:13px;
+  border-radius:14px;
   padding:14px;
   margin-top:9px;
+  background:#3568ff;
+  color:white;
   font-size:16px;
   font-weight:bold;
-  cursor:pointer;
-  background:#315efb;
-  color:white;
 }
+
 button:active{
   transform:scale(.98);
 }
-.back{
-  background:#333344;
+
+.green{background:#20a464}
+.orange{background:#e88a18}
+.red{background:#d83a4b}
+.dark{background:#30394a}
+
+.small{
+  color:#aeb7c7;
+  font-size:13px;
+  line-height:1.8;
 }
+
 .game{
   display:none;
 }
+
 .game.active{
   display:block;
 }
-.game-area{
-  height:400px;
+
+.gameArea{
   position:relative;
-  overflow:hidden;
+  height:380px;
+  background:#0b1019;
+  border:1px solid #303b50;
   border-radius:18px;
-  background:#10101b;
-  border:1px solid #303044;
-  margin-top:15px;
+  overflow:hidden;
+  margin-top:12px;
 }
+
 .car{
   position:absolute;
   bottom:20px;
   left:45%;
   font-size:45px;
+  transition:.15s;
 }
+
 .coin{
   position:absolute;
   font-size:30px;
   cursor:pointer;
+  user-select:none;
 }
+
 .target{
   position:absolute;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#ff4757;
+  cursor:pointer;
+}
+
+.target:after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:white;
+  left:17px;
+  top:17px;
+}
+
+.hidden{
+  display:none;
+}
+
+.level{
+  color:#6ea8ff;
+  font-weight:bold;
+}
+
+.notice{
+  text-align:center;
+  padding:10px;
+  border-radius:12px;
+  background:#20293a;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- CP -->
+<div class="card">
+
+  <div class="title">🪙 CP</div>
+
+  <div class="big" id="cp">0</div>
+
+  <div class="stat">
+    <span>🆙 Level</span>
+    <span class="level" id="level">1</span>
+  </div>
+
+  <div class="stat">
+    <span>📈 سقف دریافت CP</span>
+    <span id="cpLimit">1000</span>
+  </div>
+
+  <button onclick="collectCP()">
+    🪙 دریافت CP
+  </button>
+
+</div>
+
+
+<!-- عضویت -->
+<div class="card">
+
+  <div class="title">🎁 جایزه عضویت</div>
+
+  <p class="small">
+    با عضویت در کانال، یک بار ۵۰۰ CP هدیه بگیر.
+  </p>
+
+  <button class="green" onclick="joinChannel()">
+    📢 عضویت در کانال
+  </button>
+
+  <button class="orange" onclick="claimChannelReward()">
+    🎁 دریافت ۵۰۰ CP
+  </button>
+
+  <div id="channelMessage" class="notice hidden"></div>
+
+</div>
+
+
+<!-- امتیاز -->
+<div class="card">
+
+  <div class="title">⭐ امتیاز بازی</div>
+
+  <div class="big" id="score">0</div>
+
+  <p class="small">
+    امتیاز فقط از بازی‌ها به دست می‌آید.
+    امتیاز با CP یکی نیست.
+  </p>
+
+</div>
+
+
+<!-- افزایش سقف -->
+<div class="card">
+
+  <div class="title">📈 افزایش سقف CP</div>
+
+  <div class="stat">
+    <span>سقف فعلی</span>
+    <span id="limit2">1000 CP</span>
+  </div>
+
+  <div class="stat">
+    <span>امتیاز لازم</span>
+    <span id="requirement">10000</span>
+  </div>
+
+  <button onclick="increaseLimit()">
+    ⭐ افزایش سقف +۵۰۰ CP
+  </button>
+
+  <p class="small">
+    مرحله اول ۱۰٬۰۰۰ امتیاز است.
+    هر مرحله بعدی ۵٬۰۰۰ امتیاز بیشتر نیاز دارد.
+  </p>
+
+</div>
+
+
+<!-- بازی ها -->
+<div class="card">
+
+  <div class="title">🎮 بازی آنلاین</div>
+
+  <p class="small">
+    یکی از بازی‌ها را انتخاب کن و امتیاز جمع کن.
+  </p>
+
+  <button onclick="openGame('carGame')">
+    🚗 ماشین‌بازی
+  </button>
+
+  <button onclick="openGame('coinGame')">
+    🪙 جمع‌کردن سکه
+  </button>
+
+  <button onclick="openGame('targetGame')">
+    🎯 هدف‌گیری
+  </button>
+
+</div>
+
+
+<!-- ماشین -->
+<div id="carGame" class="game">
+
+  <div class="card">
+
+    <div class="title">🚗 ماشین‌بازی</div>
+
+    <div class="notice">
+      سکه‌ها را جمع کن!
+    </div>
+
+    <div id="carArea" class="gameArea">
+      <div id="car" class="car">🚗</div>
+    </div>
+
+    <button onclick="moveCar('left')">⬅️ حرکت چپ</button>
+    <button onclick="moveCar('right')">➡️ حرکت راست</button>
+    <button onclick="carCoin()">🪙 سکه جدید</button>
+    <button class="dark" onclick="closeGames()">بازگشت</button>
+
+  </div>
+
+</div>
+
+
+<!-- سکه -->
+<div id="coinGame" class="game">
+
+  <div class="card">
+
+    <div class="title">🪙 جمع‌کردن سکه</div>
+
+    <div class="notice">
+      روی سکه بزن و امتیاز بگیر!
+    </div>
+
+    <div id="coinArea" class="gameArea"></div>
+
+    <button onclick="newCoin()">🪙 ایجاد سکه</button>
+    <button class="dark" onclick="closeGames()">بازگشت</button>
+
+  </div>
+
+</div>
+
+
+<!-- هدف -->
+<div id="targetGame" class="game">
+
+  <div class="card">
+
+    <div class="title">🎯 هدف‌گیری</div>
+
+    <div class="notice">
+      هدف قرمز را بزن!
+    </div>
+
+    <div id="targetArea" class="gameArea"></div>
+
+    <button onclick="newTarget()">🎯 هدف جدید</button>
+    <button class="dark" onclick="closeGames()">بازگشت</button>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   Telegram
+========================= */
+
+const tg =
+  window.Telegram &&
+  window.Telegram.WebApp
+  ? window.Telegram.WebApp
+  : null;
+
+if(tg){
+  tg.ready();
+  tg.expand();
+}
+
+
+/* =========================
+   اطلاعات کاربر
+========================= */
+
+let cp =
+  Number(localStorage.getItem("cp")) || 0;
+
+let score =
+  Number(localStorage.getItem("gameScore")) || 0;
+
+let cpLimit =
+  Number(localStorage.getItem("cpLimit")) || 1000;
+
+let requirement =
+  Number(localStorage.getItem("cpRequirement")) || 10000;
+
+let channelReward =
  
