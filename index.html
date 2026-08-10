@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Arshan Coin</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 font-family:Arial,sans-serif;
@@ -17,9 +15,8 @@ body{
 margin:0;
 background:#050505;
 color:white;
-padding-bottom:90px;
+padding-bottom:80px;
 }
-
 
 .page{
 display:none;
@@ -30,7 +27,6 @@ padding:15px;
 display:block;
 }
 
-
 .top{
 display:flex;
 justify-content:space-between;
@@ -38,90 +34,66 @@ align-items:center;
 }
 
 .logo{
-font-size:22px;
+font-size:24px;
 font-weight:900;
 }
 
 .logo span{
-color:#e8bd42;
+color:#ffd700;
 }
 
-
-.score{
+.scorebox{
 background:#111;
 padding:10px;
 border-radius:12px;
-border:1px solid #6e5317;
 }
 
-.score b{
-color:#e8bd42;
-}
-
-
-
-.big-number{
+.bigcp{
 text-align:center;
-font-size:40px;
+font-size:42px;
 font-weight:900;
-color:#e8bd42;
+color:#ffd700;
 margin:20px;
 }
 
 
-.mine-box{
-height:300px;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-}
+.minecircle{
 
+width:240px;
+height:240px;
 
-.mine-circle{
-
-width:230px;
-height:230px;
+margin:20px auto;
 
 border-radius:50%;
 
 background:
-radial-gradient(circle at 30% 20%,#777,#111 45%,#000);
+radial-gradient(circle at 30% 20%,#777,#222 40%,#000 75%);
 
-border:8px solid #d8ad36;
+border:8px solid #ffd700;
+
+box-shadow:
+0 0 35px #ffd700,
+inset 0 -35px 50px #000;
 
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
-
-box-shadow:
-0 0 30px #d8ad36,
-inset 0 -30px 40px #000;
+align-items:center;
 
 cursor:pointer;
 
 }
 
 
-.cp{
-font-size:35px;
+.minecircle .cp{
+font-size:45px;
 font-weight:900;
-color:#e8bd42;
+color:#ffd700;
 }
 
-
-.arshan{
-font-size:17px;
+.minecircle .arshan{
+font-size:16px;
 font-weight:bold;
-}
-
-
-.mine-count{
-
-font-size:30px;
-margin-top:10px;
-
 }
 
 
@@ -129,36 +101,34 @@ margin-top:10px;
 .card{
 
 background:#111;
-border:1px solid #292929;
+
+border:1px solid #333;
+
 border-radius:18px;
+
 padding:15px;
+
 margin-top:15px;
 
 }
 
 
+
 button{
 
 width:100%;
-padding:13px;
-margin-top:10px;
 
-border-radius:12px;
+padding:12px;
+
 border:0;
 
-font-weight:bold;
+border-radius:12px;
 
-background:#d9ae38;
-
-}
-
-
-.item{
-
-background:#171717;
-border-radius:15px;
-padding:15px;
 margin-top:10px;
+
+background:#ffd700;
+
+font-weight:bold;
 
 }
 
@@ -167,16 +137,19 @@ margin-top:10px;
 .nav{
 
 position:fixed;
+
 bottom:0;
+
 left:0;
 
 width:100%;
 
 height:75px;
 
-background:#0c0c0c;
+background:#111;
 
 display:grid;
+
 grid-template-columns:repeat(5,1fr);
 
 border-top:1px solid #333;
@@ -187,11 +160,13 @@ border-top:1px solid #333;
 .nav button{
 
 background:none;
-color:#aaa;
 
-font-size:10px;
+color:white;
+
+font-size:11px;
 
 }
+
 
 
 .heart{
@@ -199,6 +174,8 @@ font-size:10px;
 position:fixed;
 
 font-size:45px;
+
+z-index:99;
 
 animation:heart 1s forwards;
 
@@ -215,11 +192,13 @@ transform:translateY(0) scale(.5);
 100%{
 
 opacity:0;
+
 transform:translateY(-150px) scale(1.5);
 
 }
 
 }
+
 
 
 .game{
@@ -237,18 +216,30 @@ overflow:hidden;
 }
 
 
+
 .coin{
 
 position:absolute;
 
-font-size:30px;
+font-size:35px;
 
 }
 
 
 
-</style>
+.item{
 
+background:#191919;
+
+border-radius:15px;
+
+padding:15px;
+
+margin-top:10px;
+
+}
+
+</style>
 </head>
 
 <body>
@@ -264,33 +255,27 @@ ARSHAN <span>COIN</span>
 </div>
 
 
-<div class="score">
+<div class="scorebox">
 
 Score:
-<b id="score">
-0
-</b>
-
-</div>
+<b id="gameScoreTop">0</b>
 
 </div>
 
 
-<div class="big-number">
+</div>
 
-<span id="totalCP">
-0
-</span>
 
+<div class="bigcp">
+
+<span id="cp">0</span>
 CP
 
 </div>
 
 
 
-<div class="mine-box">
-
-<div class="mine-circle" onclick="mineCP()">
+<div class="minecircle" onclick="mine()">
 
 <div class="cp">
 CP
@@ -301,28 +286,29 @@ ARSHAN COIN
 </div>
 
 
-<div class="mine-count" id="mineLeft">
-
-1000
-
 </div>
-
-
-</div>
-
-</div>
-
 
 
 <div class="card">
 
-Mining Capacity:
+Mining Limit:
 
 <b id="limit">
 1000
 </b>
 
 <br><br>
+
+
+Mine Left:
+
+<b id="left">
+1000
+</b>
+
+
+<br><br>
+
 
 Level:
 
@@ -334,29 +320,29 @@ Level:
 </div>
 
 
-</div>
-
-
+</div><!-- STORE -->
 
 <div id="store" class="page">
 
 <div class="card">
 
-<h2>
-🛒 Store
-</h2>
+<h2>🛒 Store</h2>
+
+<p>
+Use Online Game Score to upgrade your mining limit and buy skins.
+</p>
 
 
 <div class="item">
 
-🔥 Fire CP
+<b>Mining Capacity Upgrade</b>
 
-<br>
+<p>
+Level 2 • 5000 Game Score • +500 CP Capacity
+</p>
 
-5000 Score
-
-<button>
-BUY
+<button onclick="upgradeLimit(2,5000)">
+UPGRADE TO 1500
 </button>
 
 </div>
@@ -364,131 +350,311 @@ BUY
 
 <div class="item">
 
-🐉 Dragon CP
+<b>Mining Capacity Upgrade</b>
 
-<br>
+<p>
+Level 3 • 10000 Game Score • +500 CP Capacity
+</p>
 
-15000 Score
-
-<button>
-BUY
+<button onclick="upgradeLimit(3,10000)">
+UPGRADE TO 2000
 </button>
 
 </div>
 
 
 <div class="item">
+🎨 Color Skin
+<p>2000 Score</p>
+<button onclick="buySkin('Color',2000,'color')">BUY</button>
+</div>
 
-🌌 Galaxy CP
 
-<br>
+<div class="item">
+🐉 Dragon Skin
+<p>5000 Score</p>
+<button onclick="buySkin('Dragon',5000,'dragon')">BUY</button>
+</div>
 
-30000 Score
+
+<div class="item">
+🍦 Ice Cream Skin
+<p>7000 Score</p>
+<button onclick="buySkin('Ice Cream',7000,'ice')">BUY</button>
+</div>
+
+
+<div class="item">
+🧸 Cute Skin
+<p>10000 Score</p>
+<button onclick="buySkin('Cute',10000,'cute')">BUY</button>
+</div>
+
+
+<div class="item">
+🍫 Chocolate Skin
+<p>15000 Score</p>
+<button onclick="buySkin('Chocolate',15000,'chocolate')">BUY</button>
+</div>
+
+
+<div class="item">
+💗 Barbie Skin
+<p>22000 Score</p>
+<button onclick="buySkin('Barbie',22000,'barbie')">BUY</button>
+</div>
+
+
+<div class="item">
+🔥 Fire Dragon Skin
+<p>35000 Score</p>
+<button onclick="buySkin('Fire Dragon',35000,'fire')">BUY</button>
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- ONLINE GAME -->
+
+<div id="game" class="page">
+
+<div class="card">
+
+<h2>🎮 Online Game</h2>
+
+<div style="text-align:right;font-size:18px">
+Game Score:
+<b id="gameScore">0</b>
+</div>
+
+<p>
+Hit the coins as fast as you can!
+</p>
+
+<p>
+Coins left:
+<b id="gameCoins">1000</b>
+</p>
+
+<div id="gameArea" class="game"></div>
+
+<button onclick="startGame()">
+START GAME
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- CHANNELS -->
+
+<div id="channels" class="page">
+
+<div class="card">
+
+<h2>📢 Channels</h2>
+
+<p>
+Join our Telegram channel
+</p>
+
+<a href="https://t.me/Arshancoincp"
+target="_blank"
+style="text-decoration:none">
 
 <button>
-BUY
+JOIN TELEGRAM +500 CP
+</button>
+
+</a>
+
+</div>
+
+
+<div class="card">
+
+<h3>Instagram</h3>
+
+<button onclick="comingSoon('Instagram')">
+INSTAGRAM
 </button>
 
 </div>
 
 
+<div class="card">
+
+<h3>YouTube</h3>
+
+<button onclick="comingSoon('YouTube')">
+YOUTUBE
+</button>
+
 </div>
 
 
+<div class="card">
+
+<h3>Twitter / X</h3>
+
+<button onclick="comingSoon('Twitter / X')">
+TWITTER / X
+</button>
+
 </div>
-<script>
 
-let totalCP = 0;
-let score = 0;
 
+<div class="card">
+
+<h2>👥 Invite Friends</h2>
+
+<p>
+Invite a friend to Arshan Coin.
+</p>
+
+<p>
+Reward:
+<b>1000 CP</b>
+</p>
+
+<button onclick="inviteFriend()">
+INVITE FRIENDS
+</button>
+
+<p>
+Invites:
+<b id="invites">0</b>
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- WALLET -->
+
+<div id="wallet" class="page">
+
+<div class="card">
+
+<h2>💼 Wallet</h2>
+
+<p>
+Connect your wallet in the future.
+</p>
+
+<button onclick="walletSoon()">
+CONNECT TONKEEPER
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<div class="nav">
+
+<button onclick="openPage('mine')">
+⛏️<br>
+Mine
+</button>
+
+<button onclick="openPage('store')">
+🛒<br>
+Store
+</button>
+
+<button onclick="openPage('game')">
+🎮<br>
+Online Game
+</button>
+
+<button onclick="openPage('channels')">
+📢<br>
+Channels
+</button>
+
+<button onclick="openPage('wallet')">
+💼<br>
+Wallet
+</button>
+
+</div><script>
+
+let cp = 0;
+let gameScore = 0;
 let limit = 1000;
-let mineLeft = 1000;
-
-let clicks = 0;
-
+let left = 1000;
 let level = 0;
-
-let rechargeTime = 0;
+let clicks = 0;
+let invites = 0;
+let gameCoins = 1000;
 
 
 
 function update(){
 
-document.getElementById("totalCP").innerHTML =
-totalCP;
+document.getElementById("cp").innerHTML = cp;
+document.getElementById("left").innerHTML = left;
+document.getElementById("limit").innerHTML = limit;
+document.getElementById("level").innerHTML = Math.floor(cp/15000);
 
-document.getElementById("mineLeft").innerHTML =
-mineLeft;
-
-document.getElementById("limit").innerHTML =
-limit;
-
-document.getElementById("score").innerHTML =
-score;
-
-document.getElementById("level").innerHTML =
-level;
-
+document.getElementById("gameScore").innerHTML = gameScore;
+document.getElementById("gameScoreTop").innerHTML = gameScore;
 
 }
 
 
 
-function mineCP(){
+function mine(){
 
+if(left<=0){
 
-if(mineLeft <= 0){
-
-alert("Mining is charging...");
+alert("Mining limit finished. Recharge time: 1 hour");
 
 return;
 
 }
 
 
-totalCP++;
+cp++;
 
-mineLeft--;
+left--;
 
 clicks++;
 
 
+if(clicks>=10){
 
-if(clicks >= 10){
+heart();
 
-showHeart();
-
-clicks = 0;
-
-}
-
-
-
-if(score >= 15000){
-
-level =
-Math.floor(score / 15000);
+clicks=0;
 
 }
 
 
+level=Math.floor(cp/15000);
 
-if(mineLeft == 0){
 
-rechargeTime =
-Date.now();
+if(left==0){
 
-setTimeout(()=>{
+setTimeout(function(){
 
-mineLeft = limit;
-
+left=limit;
 update();
 
 },3600000);
 
-
 }
-
 
 
 update();
@@ -497,8 +663,8 @@ update();
 
 
 
-function showHeart(){
 
+function heart(){
 
 let h=document.createElement("div");
 
@@ -506,10 +672,9 @@ h.className="heart";
 
 h.innerHTML="❤️";
 
-h.style.left =
-Math.random()*80+"%";
+h.style.left=Math.random()*80+"%";
 
-h.style.top="50%";
+h.style.top="60%";
 
 
 document.body.appendChild(h);
@@ -527,260 +692,18 @@ h.remove();
 
 
 
-function buySkin(name,price){
-
-
-if(score < price){
-
-alert("Not enough Score");
-
-return;
-
-}
-
-
-score -= price;
-
-
-alert(
-name+" purchased!"
-);
-
-
-update();
-
-
-}
-
-
-
-
-</script>
-<!-- ONLINE GAME -->
-
-<div id="game" class="page">
-
-<div class="card">
-
-<h2>
-🎮 Online Game
-</h2>
-
-
-<div>
-
-Game Score:
-
-<b id="gameScore">
-0
-</b>
-
-</div>
-
-
-<div id="gameArea" class="game">
-
-</div>
-
-
-<button onclick="startGame()">
-START GAME
-</button>
-
-
-</div>
-
-</div>
-
-
-
-<!-- CHANNEL -->
-
-<div id="channel" class="page">
-
-
-<div class="card">
-
-<h2>
-📢 Join Channel
-</h2>
-
-
-<p>
-Join our Telegram channel and get reward
-</p>
-
-
-<a href="https://t.me/Arshancoincp" target="_blank">
-
-<button>
-JOIN TELEGRAM +500 CP
-</button>
-
-</a>
-
-
-</div>
-
-
-
-<div class="card">
-
-
-<h2>
-👥 Invite Friends
-</h2>
-
-
-<p>
-Invite friends and get 1000 CP
-</p>
-
-
-<button onclick="inviteFriends()">
-
-INVITE FRIENDS
-
-</button>
-
-
-<p id="inviteCount">
-
-Invites: 0
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-
-<!-- WALLET -->
-
-
-<div id="wallet" class="page">
-
-
-<div class="card">
-
-
-<h2>
-💼 Wallet
-</h2>
-
-
-<p>
-Tonkeeper connection coming soon
-</p>
-
-
-<button>
-
-CONNECT TONKEEPER
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<!-- NAV -->
-
-<div class="nav">
-
-
-<button onclick="openPage('mine')">
-
-⛏️
-<br>
-Mine
-
-</button>
-
-
-
-<button onclick="openPage('store')">
-
-🛒
-<br>
-Store
-
-</button>
-
-
-
-<button onclick="openPage('game')">
-
-🎮
-<br>
-Online Game
-
-</button>
-
-
-
-<button onclick="openPage('channel')">
-
-📢
-<br>
-Channels
-
-</button>
-
-
-
-<button onclick="openPage('wallet')">
-
-💼
-<br>
-Wallet
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-<script>
-
-
-let gameScore = 0;
-
-let invites = 0;
-
-
-
 function openPage(id){
 
+let pages=document.querySelectorAll(".page");
 
-document
-.querySelectorAll(".page")
-.forEach(p=>{
+pages.forEach(p=>{
 
 p.classList.remove("active");
 
 });
 
 
-document
-.getElementById(id)
-.classList.add("active");
-
+document.getElementById(id).classList.add("active");
 
 }
 
@@ -789,52 +712,44 @@ document
 
 function startGame(){
 
+if(gameCoins<=0){
 
-let area =
-document.getElementById("gameArea");
+alert("Game recharge every 2 hours");
 
+return;
+
+}
+
+
+let area=document.getElementById("gameArea");
 
 area.innerHTML="";
 
 
-let coin =
-document.createElement("div");
+let c=document.createElement("div");
+
+c.className="coin";
+
+c.innerHTML="🪙";
 
 
-coin.className="coin";
+c.style.left=Math.random()*85+"%";
 
-coin.innerHTML="🪙";
-
-
-coin.style.left =
-Math.random()*90+"%";
+c.style.top=Math.random()*80+"%";
 
 
-coin.style.top =
-Math.random()*85+"%";
+area.appendChild(c);
 
 
-area.appendChild(coin);
+c.onclick=function(){
 
+gameScore+=5;
 
+gameCoins--;
 
-coin.onclick=function(){
-
-
-gameScore +=2;
-
-score +=2;
-
-
-document.getElementById("gameScore").innerHTML=
-gameScore;
-
-
-coin.remove();
-
+update();
 
 startGame();
-
 
 };
 
@@ -842,18 +757,15 @@ startGame();
 
 setTimeout(()=>{
 
+if(c.parentNode){
 
-if(coin){
-
-coin.remove();
+c.remove();
 
 startGame();
 
 }
 
-
-},800);
-
+},700);
 
 
 }
@@ -861,30 +773,104 @@ startGame();
 
 
 
-function inviteFriends(){
+function upgradeLimit(lvl,cost){
 
+if(level<lvl){
+
+alert("Need higher Level");
+
+return;
+
+}
+
+
+if(gameScore<cost){
+
+alert("Not enough Game Score");
+
+return;
+
+}
+
+
+gameScore-=cost;
+
+limit+=500;
+
+left+=500;
+
+update();
+
+
+alert("Mining capacity increased!");
+
+}
+
+
+
+
+function buySkin(name,cost,type){
+
+if(gameScore<cost){
+
+alert("Not enough Score");
+
+return;
+
+}
+
+
+gameScore-=cost;
+
+
+alert(name+" Skin Purchased!");
+
+}
+
+
+
+
+function inviteFriend(){
 
 invites++;
 
-totalCP +=1000;
+cp+=1000;
 
 
-document.getElementById("inviteCount").innerHTML=
-
-"Invites: "+invites;
+document.getElementById("invites").innerHTML=invites;
 
 
 update();
 
 
-alert(
-"+1000 CP added"
-);
-
+alert("+1000 CP Invite Reward");
 
 }
 
 
 
 
+function comingSoon(name){
+
+alert(name+" connection coming soon");
+
+}
+
+
+
+function walletSoon(){
+
+alert("Tonkeeper connection will be available soon");
+
+}
+
+
+
+update();
+
+
 </script>
+
+
+</body>
+</html>
