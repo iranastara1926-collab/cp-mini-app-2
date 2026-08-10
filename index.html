@@ -1,178 +1,1573 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CP Mine</title>
+<title>Arshan Coin</title>
 
 <style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
 body{
     margin:0;
-    background:#050505;
-    color:white;
+    background:#030303;
+    color:#fff;
     font-family:Arial,sans-serif;
+    padding-bottom:90px;
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    padding:15px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#e6b83d;
+}
+
+.score-box{
+    background:#111;
+    border:1px solid #80651d;
+    border-radius:12px;
+    padding:7px 12px;
+    text-align:right;
+}
+
+.score-box small{
+    display:block;
+    color:#777;
+    font-size:8px;
+}
+
+.score-box b{
+    color:#e8bb45;
+    font-size:17px;
+}
+
+
+/* MINE */
+
+.mine-title{
     text-align:center;
 }
 
-h2{
-    margin-top:25px;
+.mine-title h1{
+    margin:5px 0;
+    font-size:18px;
+    letter-spacing:2px;
 }
 
-#cp{
-    color:#e5b83f;
+.mine-title p{
+    margin:0;
+    color:#777;
+    font-size:11px;
 }
 
-.circle{
-    width:220px;
-    height:220px;
+.big-number{
+    text-align:center;
+    font-size:39px;
+    font-weight:900;
+    color:#e8bc48;
+    margin-top:10px;
+    text-shadow:0 0 15px rgba(230,184,61,.3);
+}
+
+.big-number small{
+    display:block;
+    font-size:9px;
+    color:#777;
+    font-weight:normal;
+}
+
+
+/* 3D CIRCLE */
+
+.mine-area{
+    height:315px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.glow{
+    position:absolute;
+    width:270px;
+    height:270px;
     border-radius:50%;
-    margin:70px auto 25px;
+    background:#d6a82d;
+    opacity:.18;
+    filter:blur(35px);
+}
 
-    background:radial-gradient(
-        circle at 35% 25%,
-        #555,
-        #222 35%,
-        #050505 75%
-    );
-
-    border:7px solid #d7aa35;
-
-    box-shadow:
-        0 0 20px #d7aa35,
-        0 0 50px rgba(215,170,53,.35);
+.mine-circle{
+    width:235px;
+    height:235px;
+    border-radius:50%;
+    position:relative;
+    z-index:2;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
 
+    background:
+        radial-gradient(
+            circle at 32% 20%,
+            #686868 0%,
+            #303030 23%,
+            #111 55%,
+            #020202 100%
+        );
+
+    border:8px solid #d6a82f;
+
+    box-shadow:
+        0 0 0 3px #090909,
+        0 0 0 7px #725818,
+        0 0 28px rgba(220,175,50,.55),
+        0 0 70px rgba(220,175,50,.15),
+        inset 0 -38px 45px #000;
+
     cursor:pointer;
     user-select:none;
+    transition:.08s;
 }
 
-.circle:active{
-    transform:scale(.94);
+.mine-circle:active{
+    transform:scale(.93);
 }
 
-.mine{
-    color:#e5b83f;
-    font-weight:bold;
+.cp-text{
+    font-size:25px;
+    font-weight:900;
+    color:#eac04c;
+    letter-spacing:4px;
+}
+
+.arshan-text{
     font-size:18px;
+    font-weight:900;
+    letter-spacing:2px;
+    margin-top:5px;
 }
 
-.number{
-    font-size:42px;
-    font-weight:bold;
-    margin:8px;
+.coin-text{
+    font-size:9px;
+    color:#b28a2b;
+    letter-spacing:3px;
+    margin-top:4px;
 }
 
-.small{
+.circle-left{
+    font-size:34px;
+    font-weight:900;
+    margin-top:7px;
+}
+
+.circle-small{
     color:#777;
-    font-size:11px;
+    font-size:9px;
 }
+
+
+/* CAPACITY */
 
 .capacity{
-    color:#aaa;
+    margin:0 10px;
+}
+
+.capacity-head{
+    display:flex;
+    justify-content:space-between;
+    color:#777;
+    font-size:10px;
+}
+
+.capacity-head b{
+    color:#e7ba43;
 }
 
 .bar{
-    width:280px;
-    height:10px;
-    background:#222;
+    height:9px;
+    background:#1d1d1d;
     border-radius:20px;
-    margin:10px auto;
     overflow:hidden;
+    margin-top:7px;
 }
 
 .fill{
     height:100%;
     width:100%;
-    background:#e5b83f;
+    background:linear-gradient(90deg,#8b691b,#f0c34d);
+    transition:.2s;
 }
+
+.timer{
+    text-align:center;
+    color:#777;
+    font-size:10px;
+    margin-top:7px;
+}
+
+
+/* CARDS */
+
+.card{
+    background:linear-gradient(145deg,#151515,#080808);
+    border:1px solid #292929;
+    border-radius:17px;
+    padding:16px;
+    margin-top:16px;
+}
+
+.card h2{
+    margin:0 0 9px;
+    font-size:17px;
+}
+
+.desc{
+    color:#888;
+    font-size:12px;
+    line-height:1.8;
+}
+
+.stats{
+    display:flex;
+    gap:9px;
+    margin-top:14px;
+}
+
+.stat{
+    flex:1;
+    background:#181818;
+    border:1px solid #282828;
+    border-radius:12px;
+    text-align:center;
+    padding:10px;
+}
+
+.stat small{
+    display:block;
+    color:#666;
+    font-size:8px;
+}
+
+.stat b{
+    display:block;
+    color:#e8bb43;
+    font-size:18px;
+    margin-top:5px;
+}
+
+
+/* BUTTONS */
+
+.btn{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:13px;
+    margin-top:10px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.gold{
+    background:linear-gradient(135deg,#9a711c,#f0c64c);
+    color:#111;
+}
+
+.dark{
+    background:#191919;
+    color:#ddd;
+    border:1px solid #303030;
+}
+
+
+/* GAME */
+
+.game-box{
+    height:330px;
+    background:
+        radial-gradient(circle,#191919,#050505);
+    border:1px solid #292929;
+    border-radius:16px;
+    margin-top:14px;
+    position:relative;
+    overflow:hidden;
+}
+
+.game-coin{
+    position:absolute;
+    font-size:27px;
+    cursor:pointer;
+    user-select:none;
+    z-index:5;
+}
+
+.game-info{
+    display:flex;
+    justify-content:space-between;
+    color:#aaa;
+    font-size:11px;
+    margin-top:10px;
+}
+
+.game-info b{
+    color:#e8bb43;
+}
+
+
+/* SHOP ITEMS */
+
+.item{
+    background:#141414;
+    border:1px solid #292929;
+    border-radius:15px;
+    padding:13px;
+    margin-top:11px;
+}
+
+.item-preview{
+    height:100px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.mini-circle{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:5px solid #d8ae38;
+    background:#050505;
+    box-shadow:0 0 20px rgba(220,175,50,.4);
+}
+
+.mini-dragon{
+    font-size:55px;
+}
+
+.item-name{
+    font-weight:bold;
+}
+
+.item-price{
+    color:#e8bb43;
+    font-size:11px;
+    margin-top:4px;
+}
+
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:520px;
+    height:80px;
+    background:#0b0b0b;
+    border-top:1px solid #292929;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:100;
+}
+
+.nav button{
+    background:transparent;
+    border:0;
+    color:#666;
+    font-size:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.nav button span{
+    display:block;
+    font-size:20px;
+    margin-bottom:4px;
+}
+
+.nav button.active{
+    color:#e8bb43;
+}
+
+
+/* CHANNEL / WALLET */
+
+.center{
+    text-align:center;
+}
+
+.reward{
+    font-size:31px;
+    font-weight:900;
+    color:#e8bb43;
+    margin:18px;
+}
+
+.wallet-icon{
+    font-size:50px;
+    text-align:center;
+}
+
 </style>
 </head>
 
+
 <body>
 
-<h2>
-TOTAL CP:
-<span id="cp">0</span>
-</h2>
+<div class="app">
 
-<div
-    class="circle"
-    onclick="mineCP()"
->
 
-    <div>◉</div>
+<!-- ================= MINE ================= -->
 
-    <div class="mine">
-        MINE
-    </div>
+<section id="mine" class="page active">
 
-    <div
-        id="left"
-        class="number"
-    >
-        1000
-    </div>
+<div class="top">
 
-    <div class="small">
-        CP AVAILABLE
-    </div>
+<div class="logo">
+ARSHAN <span>COIN</span>
+</div>
+
+<div class="score-box">
+<small>TOTAL SCORE</small>
+<b id="topScore">0</b>
+</div>
 
 </div>
 
+
+<div class="mine-title">
+<h1>CP MINING</h1>
+<p>Tap the circle to mine CP</p>
+</div>
+
+
+<div class="big-number">
+<span id="totalCP">0</span>
+<small>TOTAL CP</small>
+</div>
+
+
+<div class="mine-area">
+
+<div class="glow"></div>
+
+<div class="mine-circle" onclick="mineCP()">
+
+<div class="cp-text">
+CP
+</div>
+
+<div class="arshan-text">
+ARSHAN COIN
+</div>
+
+<div class="coin-text">
+MINING
+</div>
+
+<div class="circle-left" id="mineLeft">
+1000
+</div>
+
+<div class="circle-small">
+CP AVAILABLE
+</div>
+
+</div>
+
+</div>
+
+
 <div class="capacity">
-    CAPACITY:
-    <span id="capacity">1000</span>
-    / 1000
+
+<div class="capacity-head">
+<span>MINING CAPACITY</span>
+
+<b>
+<span id="left">1000</span> /
+<span id="limit">1000</span>
+</b>
 </div>
 
 <div class="bar">
-    <div
-        id="fill"
-        class="fill"
-    ></div>
+<div id="fill" class="fill"></div>
 </div>
 
-<div id="message">
-    Ready to mine
+<div id="mineTimer" class="timer">
+Ready to mine
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📊 Mining Status</h2>
+
+<div class="stats">
+
+<div class="stat">
+<small>LEVEL</small>
+<b id="level">0</b>
+</div>
+
+<div class="stat">
+<small>SCORE</small>
+<b id="mineScore">0</b>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= STORE ================= -->
+
+<section id="store" class="page">
+
+<div class="top">
+
+<div class="logo">
+CP <span>STORE</span>
+</div>
+
+<div class="score-box">
+<small>GAME SCORE</small>
+<b id="storeScore">0</b>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🛒 Increase Mining Limit</h2>
+
+<div class="desc">
+
+Use Score earned from the online game
+to increase your CP mining capacity.
+
+<br><br>
+
+Each purchase adds <b>+500 CP</b>.
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<small>CURRENT LIMIT</small>
+<b id="shopLimit">1000</b>
+</div>
+
+<div class="stat">
+<small>NEXT COST</small>
+<b id="upgradeCost">10000</b>
+</div>
+
+</div>
+
+
+<button class="btn gold" onclick="upgradeLimit()">
+ADD +500 CP LIMIT
+</button>
+
+<div id="upgradeMessage" class="timer"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🎨 CP Skins</h2>
+
+<div class="desc">
+Buy special mining circle designs with your game Score.
+</div>
+
+
+<div class="item">
+
+<div class="item-preview">
+<div class="mini-circle"></div>
+</div>
+
+<div class="item-name">
+Golden Shadow
+</div>
+
+<div class="item-price">
+10,000 Score
+</div>
+
+<button class="btn gold" onclick="buySkin(10000,'Golden Shadow')">
+BUY
+</button>
+
+</div>
+
+
+<div class="item">
+
+<div class="item-preview">
+<div class="mini-circle" style="
+background:linear-gradient(135deg,#6b35a8,#111);
+border-color:#a45de0;
+box-shadow:0 0 25px #6d35a8;
+"></div>
+</div>
+
+<div class="item-name">
+Royal Purple
+</div>
+
+<div class="item-price">
+20,000 Score
+</div>
+
+<button class="btn gold" onclick="buySkin(20000,'Royal Purple')">
+BUY
+</button>
+
+</div>
+
+
+<div class="item">
+
+<div class="item-preview">
+<div class="mini-dragon">
+🐉
+</div>
+</div>
+
+<div class="item-name">
+Dragon CP
+</div>
+
+<div class="item-price">
+35,000 Score
+</div>
+
+<button class="btn gold" onclick="buySkin(35000,'Dragon CP')">
+BUY
+</button>
+
+</div>
+
+
+<div class="item">
+
+<div class="item-preview">
+<div class="mini-circle" style="
+background:linear-gradient(135deg,#075c55,#020202);
+border-color:#21c9b8;
+box-shadow:0 0 30px #087b70;
+"></div>
+</div>
+
+<div class="item-name">
+Emerald Dark
+</div>
+
+<div class="item-price">
+50,000 Score
+</div>
+
+<button class="btn gold" onclick="buySkin(50000,'Emerald Dark')">
+BUY
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ONLINE GAME ================= -->
+
+<section id="games" class="page">
+
+<div class="top">
+
+<div class="logo">
+ONLINE <span>GAME</span>
+</div>
+
+<div class="score-box">
+<small>SCORE</small>
+<b id="gameScore">0</b>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🪙 Fast Coin</h2>
+
+<div class="desc">
+
+Coins move very quickly.
+Tap the coin before it disappears.
+
+<br><br>
+
+Every collected coin gives
+<b>+2 Score</b>.
+
+</div>
+
+
+<div class="game-info">
+
+<span>
+Collected:
+<b id="collected">0</b>
+</span>
+
+<span>
+Limit:
+<b>500</b>
+</span>
+
+</div>
+
+
+<div id="gameArea" class="game-box"></div>
+
+
+<div id="gameTimer" class="timer">
+500 coins available
+</div>
+
+
+<button class="btn gold" onclick="startGame()">
+START GAME
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= CHANNELS ================= -->
+
+<section id="channels" class="page">
+
+<div class="top">
+
+<div class="logo">
+CHANNEL <span>JOIN</span>
+</div>
+
+</div>
+
+
+<div class="card center">
+
+<h2>📢 Join Channels</h2>
+
+<div class="desc">
+
+Your channel links will be added here later.
+
+</div>
+
+
+<div class="reward">
++500 CP
+</div>
+
+
+<button class="btn gold" onclick="openChannel('YOUR_TELEGRAM_CHANNEL')">
+TELEGRAM
+</button>
+
+
+<button class="btn gold" onclick="openChannel('YOUR_INSTAGRAM')">
+INSTAGRAM
+</button>
+
+
+<button class="btn gold" onclick="openChannel('YOUR_YOUTUBE')">
+YOUTUBE
+</button>
+
+
+<button class="btn gold" onclick="openChannel('YOUR_TWITTER')">
+TWITTER / X
+</button>
+
+
+<div id="channelMessage" class="timer"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= WALLET ================= -->
+
+<section id="wallet" class="page">
+
+<div class="top">
+
+<div class="logo">
+TON <span>WALLET</span>
+</div>
+
+</div>
+
+
+<div class="card center">
+
+<div class="wallet-icon">
+💼
+</div>
+
+<h2>
+Connect Wallet
+</h2>
+
+<div class="desc">
+
+Wallet connection will be activated later.
+
+<br>
+
+Tonkeeper / TON Wallet
+
+</div>
+
+
+<button class="btn gold" onclick="walletComingSoon()">
+CONNECT TONKEEPER
+</button>
+
+
+<div id="walletMessage" class="timer">
+Not connected
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<!-- ================= NAV ================= -->
+
+<div class="nav">
+
+<button class="active" onclick="openPage('mine',this)">
+<span>⛏️</span>
+Mine
+</button>
+
+<button onclick="openPage('store',this)">
+<span>🛒</span>
+Store
+</button>
+
+<button onclick="openPage('games',this)">
+<span>🎮</span>
+Online Game
+</button>
+
+<button onclick="openPage('channels',this)">
+<span>📢</span>
+Channels
+</button>
+
+<button onclick="openPage('wallet',this)">
+<span>💼</span>
+Wallet
+</button>
+
 </div>
 
 
 <script>
 
-let cp = 0;
-let mining = 1000;
+/* =========================
+   DATA
+========================= */
+
+let totalCP =
+Number(localStorage.getItem("totalCP")) || 0;
+
+let score =
+Number(localStorage.getItem("score")) || 0;
+
+let limit =
+Number(localStorage.getItem("limit")) || 1000;
+
+let miningLeft =
+localStorage.getItem("miningLeft");
+
+if(miningLeft === null){
+    miningLeft = limit;
+}else{
+    miningLeft = Number(miningLeft);
+}
+
+
+/*
+1 hour recharge
+*/
+
+let rechargeStart =
+Number(localStorage.getItem("rechargeStart")) || 0;
+
+
+/*
+Store upgrade:
+10,000 first
+then +5,000 every time
+*/
+
+let upgradeCost =
+Number(localStorage.getItem("upgradeCost")) || 10000;
+
+
+/*
+Online game:
+500 coins every 4 hours
+*/
+
+let gameCollected =
+Number(localStorage.getItem("gameCollected")) || 0;
+
+let gameStart =
+Number(localStorage.getItem("gameStart")) || 0;
+
+
+/* =========================
+   SAVE
+========================= */
+
+function save(){
+
+localStorage.setItem("totalCP",totalCP);
+localStorage.setItem("score",score);
+localStorage.setItem("limit",limit);
+localStorage.setItem("miningLeft",miningLeft);
+localStorage.setItem("rechargeStart",rechargeStart);
+localStorage.setItem("upgradeCost",upgradeCost);
+localStorage.setItem("gameCollected",gameCollected);
+localStorage.setItem("gameStart",gameStart);
+
+}
+
+
+/* =========================
+   LEVEL
+=========================
+
+Every 15,000 Score = +1 Level
+
+15,000 = Level 1
+30,000 = Level 2
+45,000 = Level 3
+...
+
+*/
+
+function getLevel(){
+
+return Math.floor(score / 15000);
+
+}
+
+
+/* =========================
+   MINE
+========================= */
 
 function mineCP(){
 
-    if(mining <= 0){
+checkRecharge();
 
-        document.getElementById("message").innerText =
-        "Mining finished. Wait 1 hour.";
+if(miningLeft <= 0){
 
-        return;
-    }
-
-    cp = cp + 1;
-    mining = mining - 1;
-
-    document.getElementById("cp").innerText =
-    cp;
-
-    document.getElementById("left").innerText =
-    mining;
-
-    document.getElementById("capacity").innerText =
-    mining;
-
-    document.getElementById("fill").style.width =
-    (mining / 1000 * 100) + "%";
+return;
 
 }
+
+totalCP++;
+miningLeft--;
+
+if(miningLeft === 0){
+
+rechargeStart = Date.now();
+
+}
+
+save();
+update();
+
+}
+
+
+/* =========================
+   RECHARGE
+========================= */
+
+function checkRecharge(){
+
+if(miningLeft > 0){
+    return;
+}
+
+if(!rechargeStart){
+    return;
+}
+
+let passed =
+Date.now() - rechargeStart;
+
+
+/*
+1 hour
+*/
+
+if(passed >= 3600000){
+
+miningLeft = limit;
+rechargeStart = 0;
+
+save();
+
+}
+
+}
+
+
+/* =========================
+   STORE LIMIT
+========================= */
+
+function upgradeLimit(){
+
+let level = getLevel();
+
+
+/*
+First purchase:
+10,000 Score
+Requires Level 1
+
+Second:
+15,000
+Requires Level 2
+
+Third:
+20,000
+Requires Level 3
+
+and so on.
+*/
+
+let requiredLevel =
+Math.floor((upgradeCost - 10000) / 5000) + 1;
+
+
+if(level < requiredLevel){
+
+document.getElementById("upgradeMessage").innerText =
+"Level " + requiredLevel +
+" required for this upgrade.";
+
+return;
+
+}
+
+
+if(score < upgradeCost){
+
+document.getElementById("upgradeMessage").innerText =
+"Not enough Score. Need " +
+upgradeCost.toLocaleString() +
+" Score.";
+
+return;
+
+}
+
+
+score -= upgradeCost;
+
+limit += 500;
+
+
+/*
+If mining is full,
+add the new 500 immediately.
+*/
+
+if(miningLeft > 0){
+    miningLeft += 500;
+}else{
+    miningLeft = limit;
+    rechargeStart = 0;
+}
+
+
+upgradeCost += 5000;
+
+save();
+update();
+
+
+document.getElementById("upgradeMessage").innerText =
+"+500 CP mining capacity added.";
+
+}
+
+
+/* =========================
+   SKINS
+========================= */
+
+function buySkin(price,name){
+
+if(score < price){
+
+alert(
+"Not enough Score.\nNeed " +
+price.toLocaleString() +
+" Score."
+);
+
+return;
+
+}
+
+score -= price;
+
+save();
+update();
+
+alert(
+name +
+" purchased successfully."
+);
+
+}
+
+
+/* =========================
+   ONLINE GAME
+========================= */
+
+const GAME_LIMIT = 500;
+const GAME_TIME = 4 * 60 * 60 * 1000;
+
+
+function gameReady(){
+
+if(!gameStart){
+    return true;
+}
+
+return Date.now() - gameStart >= GAME_TIME;
+
+}
+
+
+function startGame(){
+
+if(!gameReady()){
+
+alert(
+"Game limit reached.\nCome back after 4 hours."
+);
+
+return;
+
+}
+
+
+gameCollected = 0;
+gameStart = Date.now();
+
+document.getElementById("gameArea").innerHTML = "";
+
+save();
+update();
+
+spawnCoin();
+
+}
+
+
+/*
+Fast moving coin
+*/
+
+function spawnCoin(){
+
+if(gameCollected >= GAME_LIMIT){
+    return;
+}
+
+
+let area =
+document.getElementById("gameArea");
+
+let coin =
+document.createElement("div");
+
+coin.className = "game-coin";
+
+coin.innerText = "🪙";
+
+
+coin.style.left =
+Math.random() * 88 + "%";
+
+coin.style.top =
+Math.random() * 88 + "%";
+
+
+coin.onclick = function(){
+
+gameCollected++;
+
+
+/*
+Each coin = 2 Score
+*/
+
+score += 2;
+
+coin.remove();
+
+save();
+update();
+
+
+if(gameCollected < GAME_LIMIT){
+
+/*
+Very fast
+*/
+
+setTimeout(spawnCoin,35);
+
+}else{
+
+alert(
+"500 coins collected!\n+1000 Score"
+);
+
+}
+
+};
+
+
+/*
+Coin disappears very quickly
+*/
+
+area.appendChild(coin);
+
+setTimeout(function(){
+
+if(coin.parentNode){
+
+coin.remove();
+
+if(gameCollected < GAME_LIMIT){
+
+spawnCoin();
+
+}
+
+}
+
+},650);
+
+}
+
+
+/* =========================
+   CHANNELS
+========================= */
+
+function openChannel(url){
+
+if(
+url.startsWith("YOUR_")
+){
+
+document.getElementById("channelMessage").innerText =
+"Channel link will be added later.";
+
+return;
+
+}
+
+window.open(url,"_blank");
+
+}
+
+
+/* =========================
+   WALLET
+========================= */
+
+function walletComingSoon(){
+
+document.getElementById("walletMessage").innerText =
+"Tonkeeper connection will be activated later.";
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function openPage(id,button){
+
+document
+.querySelectorAll(".page")
+.forEach(function(page){
+
+page.classList.remove("active");
+
+});
+
+
+document
+.getElementById(id)
+.classList.add("active");
+
+
+document
+.querySelectorAll(".nav button")
+.forEach(function(btn){
+
+btn.classList.remove("active");
+
+});
+
+
+button.classList.add("active");
+
+update();
+
+}
+
+
+/* =========================
+   UPDATE UI
+========================= */
+
+function update(){
+
+checkRecharge();
+
+
+/* CP */
+
+document.getElementById("totalCP").innerText =
+totalCP.toLocaleString();
+
+
+/* SCORE */
+
+document.getElementById("topScore").innerText =
+score.toLocaleString();
+
+document.getElementById("mineScore").innerText =
+score.toLocaleString();
+
+document.getElementById("storeScore").innerText =
+score.toLocaleString();
+
+document.getElementById("gameScore").innerText =
+score.toLocaleString();
+
+
+/* LEVEL */
+
+document.getElementById("level").innerText =
+getLevel();
+
+
+/* MINE */
+
+document.getElementById("mineLeft").innerText =
+miningLeft.toLocaleString();
+
+document.getElementById("left").innerText =
+miningLeft.toLocaleString();
+
+document.getElementById("limit").innerText =
+limit.toLocaleString();
+
+document.getElementById("shopLimit").innerText =
+limit.toLocaleString();
+
+
+let percentage =
+limit > 0
+? (miningLeft / limit) * 100
+: 0;
+
+
+document.getElementById("fill").style.width =
+percentage + "%";
+
+
+/* STORE */
+
+document.getElementById("upgradeCost").innerText =
+upgradeCost.toLocaleString();
+
+
+/* GAME */
+
+document.getElementById("collected").innerText =
+gameCollected;
+
+
+let mineTimer =
+document.getElementById("mineTimer");
+
+
+if(miningLeft > 0){
+
+mineTimer.innerText =
+"Ready to mine";
+
+}else{
+
+let remaining =
+3600000 -
+(Date.now() - rechargeStart);
+
+if(remaining <= 0){
+
+mineTimer.innerText =
+"Ready to mine";
+
+}else{
+
+let minutes =
+Math.floor(remaining / 60000);
+
+let seconds =
+Math.floor(
+(remaining % 60000) / 1000
+);
+
+mineTimer.innerText =
+"Recharge in " +
+minutes +
+"m " +
+String(seconds).padStart(2,"0") +
+"s";
+
+}
+
+}
+
+
+/* GAME TIMER */
+
+let gameTimer =
+document.getElementById("gameTimer");
+
+
+if(gameReady()){
+
+gameTimer.innerText =
+"500 coins available";
+
+}else{
+
+let remaining =
+GAME_TIME -
+(Date.now() - gameStart);
+
+let hours =
+Math.floor(
+remaining / 3600000
+);
+
+let minutes =
+Math.floor(
+(remaining % 3600000) / 60000
+);
+
+let seconds =
+Math.floor(
+(remaining % 60000) / 1000
+);
+
+gameTimer.innerText =
+"Next 500 coins in " +
+hours + "h " +
+String(minutes).padStart(2,"0") +
+"m " +
+String(seconds).padStart(2,"0") +
+"s";
+
+}
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+update();
+
+setInterval(update,1000);
 
 </script>
 
