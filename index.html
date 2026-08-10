@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CP Mini App</title>
 
 <style>
@@ -13,10 +13,10 @@
 
 body{
   margin:0;
-  background:
-    radial-gradient(circle at 50% 0%,#292929 0%,#0b0b0b 42%,#020202 100%);
   color:#fff;
   font-family:Arial,Tahoma,sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%,#292929,#090909 45%,#020202);
   padding-bottom:90px;
 }
 
@@ -27,29 +27,24 @@ body{
   padding:15px;
 }
 
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
+.page{display:none}
+.page.active{display:block}
 
 /* TOP */
 
 .top{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   margin-bottom:22px;
 }
 
 .logo{
-  font-size:23px;
+  font-size:22px;
   font-weight:900;
 }
 
-.total-cp{
+.top-box{
   background:#111;
   border:1px solid #80631d;
   border-radius:14px;
@@ -57,17 +52,16 @@ body{
   text-align:right;
 }
 
-.total-cp small{
+.top-box small{
   display:block;
   color:#777;
   font-size:9px;
 }
 
-.total-cp b{
-  color:#e6b93f;
+.top-box b{
+  color:#e8bd45;
   font-size:17px;
 }
-
 
 /* MINE */
 
@@ -75,7 +69,7 @@ body{
   text-align:center;
   color:#888;
   font-size:12px;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .circle-wrap{
@@ -93,55 +87,4 @@ body{
   width:250px;
   height:250px;
   border-radius:50%;
-  background:#d8ad35;
-  opacity:.13;
-  filter:blur(28px);
-  animation:glow 2.5s infinite;
-}
-
-@keyframes glow{
-  0%,100%{
-    transform:scale(.95);
-  }
-  50%{
-    transform:scale(1.08);
-  }
-}
-
-.mine-circle{
-  position:relative;
-  width:225px;
-  height:225px;
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle at 32% 22%,
-      #555 0%,
-      #292929 20%,
-      #111 52%,
-      #030303 85%
-    );
-
-  border:7px solid #d8aa32;
-
-  box-shadow:
-    0 0 0 4px #080808,
-    0 0 0 7px #916e1b,
-    0 0 38px rgba(220,176,55,.42),
-    inset 0 0 35px rgba(255,255,255,.05),
-    inset 0 -25px 40px rgba(0,0,0,.8);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-
-  cursor:pointer;
-  user-select:none;
-
-  transition:.12s;
-}
-
-.mine-circle:active{
-  transform:scale(.
+  background
