@@ -2,872 +2,1070 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Arshan Coin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arshan Exchange</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#050505;color:#fff}
-body{padding-bottom:88px;overflow-x:hidden}
-button{font-family:inherit}
-.page{display:none;min-height:calc(100vh - 88px);padding:18px 16px 25px}
-.page.active{display:block}
-.header{display:flex;align-items:center;justify-content:space-between}
-.brand{font-size:21px;font-weight:900;letter-spacing:.8px}
-.brand span{color:#e8b93f}
-.game-score{background:linear-gradient(145deg,#191919,#090909);border:1px solid #5d4818;border-radius:14px;padding:9px 12px;font-size:12px}
-.game-score b{color:#ffd45a;font-size:15px}
-.mine-total{text-align:center;margin-top:22px;font-size:44px;font-weight:900;letter-spacing:1px;color:#ffd34e;text-shadow:0 0 18px rgba(255,211,78,.25)}
-.mine-total small{font-size:14px;color:#aaa;display:block;letter-spacing:2px;margin-top:3px}
-.mine-wrap{min-height:330px;display:flex;align-items:center;justify-content:center;position:relative}
-.mine-ring{width:258px;height:258px;border-radius:50%;padding:9px;background:linear-gradient(135deg,#fff1a0,#b88619 25%,#ffd94d 48%,#6d4b0b 75%,#e5bd45);box-shadow:0 0 18px rgba(255,202,57,.45),0 0 65px rgba(255,184,20,.16);transition:transform .08s}
-.mine-ring:active{transform:scale(.96)}
-.mine-circle{width:100%;height:100%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 31% 22%,#777 0,#252525 25%,#101010 58%,#000 100%);border:3px solid #161616;box-shadow:inset 0 18px 35px rgba(255,255,255,.08),inset 0 -30px 45px #000,0 8px 15px rgba(0,0,0,.8);position:relative;overflow:hidden}
-.mine-circle:after{content:"";position:absolute;inset:12px;border-radius:50%;border:1px solid rgba(255,215,100,.18)}
-.cp-logo{font-size:48px;font-weight:1000;color:#ffd24c;z-index:1;text-shadow:0 3px 0 #5d4208,0 0 14px rgba(255,210,70,.35)}
-.arshan{font-size:13px;font-weight:900;letter-spacing:2px;color:#eee;z-index:1}
-.tap-hint{font-size:9px;color:#999;margin-top:10px;letter-spacing:1.5px;z-index:1}
-.limit-card,.card{background:linear-gradient(145deg,#151515,#0b0b0b);border:1px solid #292929;border-radius:18px;padding:16px;margin-bottom:13px}
-.limit-row{display:flex;justify-content:space-between;align-items:center}
-.limit-label{font-size:12px;color:#aaa}
-.limit-value{font-size:21px;color:#ffd34e;font-weight:900}
-.bar{height:8px;background:#242424;border-radius:20px;overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#a87613,#ffe06a);border-radius:20px}
-.level-box{display:flex;justify-content:space-between;margin-top:14px;color:#aaa;font-size:12px}
-.level-box b{color:#fff}
-.card h2,.card h3{margin:0 0 10px}
-.muted{color:#999;font-size:12px;line-height:1.5}
-.gold{color:#ffd34e}
-.store-item{border:1px solid #282828;background:#101010;border-radius:16px;padding:14px;margin-top:10px;display:flex;align-items:center;gap:12px}
-.skin-preview{width:58px;height:58px;border-radius:50%;flex:none;border:3px solid #555;display:flex;align-items:center;justify-content:center;font-size:24px}
-.skin-info{flex:1}
-.skin-info strong{display:block}
-.skin-price{font-size:12px;color:#ffd34e;margin-top:5px}
-.buy{background:#e5b936;border:0;border-radius:10px;padding:10px 12px;font-weight:900}
-.buy:disabled{opacity:.35}
-.game-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.live-score{font-size:18px;font-weight:900;color:#ffd34e}
-.game-area{height:390px;position:relative;overflow:hidden;border-radius:18px;background:radial-gradient(circle at 50% 20%,rgba(255,210,65,.08),transparent 30%),linear-gradient(160deg,#141414,#050505);border:1px solid #292929}
-.game-coin{position:absolute;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 32% 25%,#fff3a1,#e7b933 40%,#7b570d);border:3px solid #ffe273;box-shadow:0 0 18px rgba(255,205,54,.45);font-size:22px;cursor:pointer}
-.game-start,.channel-btn,.invite-btn,.wallet-btn{width:100%;padding:13px;border-radius:12px;border:0;background:#e5b936;color:#080808;text-align:center;text-decoration:none;font-weight:900;margin-top:10px}
-.cooldown{color:#aaa;font-size:12px;text-align:center;margin-top:8px}
-.channel-row{padding:12px 0;border-bottom:1px solid #222}
-.channel-row:last-child{border-bottom:0}
-.invite-code{background:#080808;border:1px dashed #574719;padding:11px;border-radius:10px;word-break:break-all;color:#ddd;font-size:11px;margin-top:10px}
-.wallet-box{text-align:center;padding:28px 10px}
-.wallet-icon{font-size:50px;margin-bottom:10px}
-.nav{position:fixed;z-index:100;left:0;right:0;bottom:0;height:78px;background:rgba(10,10,10,.97);border-top:1px solid #292929;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 3px}
-.nav button{background:none;border:0;color:#777;font-size:10px;font-weight:800}
-.nav button.active{color:#ffd34e}
-.nav-icon{font-size:20px;display:block;margin-bottom:3px}
-.toast{position:fixed;z-index:999;left:50%;bottom:95px;transform:translateX(-50%) translateY(20px);background:#171717;border:1px solid #6d5319;color:#fff;padding:11px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;font-size:12px;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.plus{position:fixed;z-index:997;color:#ffd34e;font-size:21px;font-weight:900;pointer-events:none;animation:plusUp .75s ease-out forwards}
-@keyframes plusUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-70px)}}
-@media(max-width:380px){.mine-ring{width:225px;height:225px}.mine-wrap{min-height:295px}.mine-total{font-size:38px}}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  background:#07090d;
+  color:#fff;
+  min-height:100vh;
+}
+
+.app{
+  width:100%;
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:90px;
+  background:
+    radial-gradient(circle at top,#17130a 0,#07090d 35%);
+}
+
+/* HEADER */
+.header{
+  padding:22px 18px 10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:#f5b83d;
+}
+
+.demo{
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:20px;
+  background:#251d0d;
+  color:#f5b83d;
+  border:1px solid #5d4618;
+}
+
+/* BALANCE */
+.balance-card{
+  margin:15px;
+  padding:22px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#19140b,#0d1016);
+  border:1px solid #3a2d13;
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.small{
+  color:#8d939d;
+  font-size:13px;
+}
+
+.balance{
+  font-size:34px;
+  font-weight:900;
+  margin:8px 0;
+}
+
+.balance span{
+  color:#f5b83d;
+}
+
+.profit{
+  color:#37d17c;
+  font-size:13px;
+}
+
+/* BUTTONS */
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:20px;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+}
+
+.action-btn{
+  padding:13px;
+  border-radius:13px;
+  font-weight:bold;
+  background:#f5b83d;
+  color:#090909;
+}
+
+.action-btn.secondary{
+  background:#171b22;
+  color:#fff;
+  border:1px solid #292e38;
+}
+
+/* SECTION */
+.section{
+  padding:10px 15px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0 12px;
+}
+
+.section-title h2{
+  font-size:18px;
+}
+
+.section-title span{
+  color:#f5b83d;
+  font-size:12px;
+}
+
+/* COINS */
+.coin{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  margin-bottom:9px;
+  border-radius:16px;
+  background:#101319;
+  border:1px solid #1d222b;
+}
+
+.coin-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.coin-icon{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#191d24;
+  font-weight:bold;
+  color:#f5b83d;
+}
+
+.coin-name{
+  font-weight:bold;
+}
+
+.coin-symbol{
+  color:#747b86;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.coin-price{
+  text-align:right;
+}
+
+.coin-price strong{
+  display:block;
+}
+
+.up{
+  color:#37d17c;
+  font-size:11px;
+}
+
+/* INVESTMENTS */
+.plan{
+  padding:18px;
+  margin-bottom:10px;
+  background:linear-gradient(145deg,#11151c,#0b0e13);
+  border:1px solid #242a33;
+  border-radius:18px;
+}
+
+.plan-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+
+.plan-name{
+  font-weight:bold;
+}
+
+.demo-profit{
+  color:#37d17c;
+  font-weight:bold;
+}
+
+.plan-info{
+  display:flex;
+  justify-content:space-between;
+  color:#858b95;
+  font-size:12px;
+  margin-bottom:14px;
+}
+
+.invest-btn{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:#f5b83d;
+  color:#080808;
+  font-weight:bold;
+}
+
+/* HISTORY */
+.history{
+  background:#101319;
+  border-radius:17px;
+  overflow:hidden;
+  border:1px solid #1d222b;
+}
+
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  padding:14px;
+  border-bottom:1px solid #1d222b;
+}
+
+.transaction:last-child{
+  border-bottom:0;
+}
+
+.tx-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.tx-title{
+  font-size:13px;
+  font-weight:bold;
+}
+
+.tx-date{
+  font-size:10px;
+  color:#707680;
+}
+
+.deposit{
+  color:#37d17c;
+}
+
+.withdraw{
+  color:#ff6574;
+}
+
+/* NAV */
+.nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  height:72px;
+  background:#0d1015;
+  border-top:1px solid #20252e;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  z-index:10;
+}
+
+.nav button{
+  background:none;
+  color:#6f7680;
+  font-size:11px;
+}
+
+.nav button.active{
+  color:#f5b83d;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  z-index:20;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.modal-box{
+  width:100%;
+  max-width:480px;
+  background:#11151b;
+  border-radius:25px 25px 0 0;
+  padding:22px;
+  border:1px solid #292e36;
+}
+
+.modal-box h2{
+  margin-bottom:18px;
+}
+
+.input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #2b313b;
+  background:#080b10;
+  color:white;
+  outline:none;
+  margin-bottom:12px;
+}
+
+.close{
+  width:100%;
+  padding:13px;
+  margin-top:8px;
+  border-radius:12px;
+  background:#1a1e25;
+  color:white;
+}
+
+.notice{
+  padding:12px;
+  border-radius:12px;
+  background:#1a160c;
+  color:#cdbd91;
+  font-size:11px;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+
+/* PROFILE */
+.profile{
+  text-align:center;
+  padding:25px 15px;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#f5b83d,#79540f);
+  color:#080808;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.profile h2{
+  margin-top:12px;
+}
+
+.profile p{
+  color:#777e89;
+  margin-top:5px;
+}
+
+.profile-card{
+  margin-top:20px;
+  background:#101319;
+  border:1px solid #1e242d;
+  border-radius:17px;
+  overflow:hidden;
+}
+
+.profile-row{
+  padding:15px;
+  border-bottom:1px solid #1e242d;
+  display:flex;
+  justify-content:space-between;
+}
+
+.profile-row:last-child{
+  border:0;
+}
+
+.hidden{
+  display:none;
+}
 </style>
 </head>
 
 <body>
 
-<section id="mine" class="page active">
-<div class="header">
-<div class="brand">ARSHAN <span>COIN</span></div>
-<div class="game-score">Game Score <b id="topGameScore">0</b></div>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">ARSHAN <span>EXCHANGE</span></div>
+    <div class="demo">DEMO</div>
+  </div>
+
+  <!-- HOME -->
+  <main id="homePage">
+
+    <div class="balance-card">
+      <div class="small">Total Demo Balance</div>
+      <div class="balance">$<span id="balance">10,000.00</span></div>
+      <div class="profit">+ $125.40 today</div>
+
+      <div class="actions">
+        <button class="action-btn" onclick="openModal('deposit')">
+          Deposit
+        </button>
+
+        <button class="action-btn secondary" onclick="openModal('withdraw')">
+          Withdraw
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <div class="section-title">
+        <h2>Markets</h2>
+        <span>LIVE DEMO</span>
+      </div>
+
+      <div class="coin">
+        <div class="coin-left">
+          <div class="coin-icon">₿</div>
+          <div>
+            <div class="coin-name">Bitcoin</div>
+            <div class="coin-symbol">BTC</div>
+          </div>
+        </div>
+        <div class="coin-price">
+          <strong>$61,420</strong>
+          <span class="up">+2.41%</span>
+        </div>
+      </div>
+
+      <div class="coin">
+        <div class="coin-left">
+          <div class="coin-icon">Ξ</div>
+          <div>
+            <div class="coin-name">Ethereum</div>
+            <div class="coin-symbol">ETH</div>
+          </div>
+        </div>
+        <div class="coin-price">
+          <strong>$2,740</strong>
+          <span class="up">+1.87%</span>
+        </div>
+      </div>
+
+      <div class="coin">
+        <div class="coin-left">
+          <div class="coin-icon">₮</div>
+          <div>
+            <div class="coin-name">Tether</div>
+            <div class="coin-symbol">USDT</div>
+          </div>
+        </div>
+        <div class="coin-price">
+          <strong>$1.00</strong>
+          <span class="up">+0.01%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-title">
+        <h2>Investment</h2>
+        <span>DEMO PLANS</span>
+      </div>
+
+      <div class="plan">
+        <div class="plan-top">
+          <div class="plan-name">Starter</div>
+          <div class="demo-profit">0.5% / day*</div>
+        </div>
+
+        <div class="plan-info">
+          <span>Minimum: $100</span>
+          <span>Demo period: 7 days</span>
+        </div>
+
+        <button class="invest-btn" onclick="invest(100)">
+          Invest $100 Demo
+        </button>
+      </div>
+
+      <div class="plan">
+        <div class="plan-top">
+          <div class="plan-name">Advanced</div>
+          <div class="demo-profit">1% / day*</div>
+        </div>
+
+        <div class="plan-info">
+          <span>Minimum: $500</span>
+          <span>Demo period: 14 days</span>
+        </div>
+
+        <button class="invest-btn" onclick="invest(500)">
+          Invest $500 Demo
+        </button>
+      </div>
+
+      <div class="plan">
+        <div class="plan-top">
+          <div class="plan-name">Premium</div>
+          <div class="demo-profit">2% / day*</div>
+        </div>
+
+        <div class="plan-info">
+          <span>Minimum: $1,000</span>
+          <span>Demo period: 30 days</span>
+        </div>
+
+        <button class="invest-btn" onclick="invest(1000)">
+          Invest $1,000 Demo
+        </button>
+      </div>
+
+      <div class="notice">
+        * این درصدها فقط برای شبیه‌سازی رابط کاربری هستند و نشان‌دهنده
+        بازده واقعی یا تضمین‌شده سرمایه‌گذاری نیستند.
+      </div>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-title">
+        <h2>Transactions</h2>
+        <span>HISTORY</span>
+      </div>
+
+      <div class="history" id="history">
+
+        <div class="transaction">
+          <div class="tx-left">
+            <div class="tx-title">Demo Account</div>
+            <div class="tx-date">Initial balance</div>
+          </div>
+          <div class="deposit">+$10,000</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- INVESTMENT PAGE -->
+  <section id="investmentPage" class="hidden">
+
+    <div class="section">
+      <div class="section-title">
+        <h2>My Investments</h2>
+        <span>DEMO</span>
+      </div>
+
+      <div class="plan">
+
+        <div class="plan-top">
+          <div class="plan-name">No active investment</div>
+          <div class="demo-profit">0.00%</div>
+        </div>
+
+        <div class="plan-info">
+          <span>Choose a demo plan</span>
+          <span>Simulation</span>
+        </div>
+
+        <button class="invest-btn" onclick="goHome()">
+          View Plans
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- WALLET PAGE -->
+  <section id="walletPage" class="hidden">
+
+    <div class="section">
+
+      <div class="section-title">
+        <h2>Wallet</h2>
+        <span>DEMO</span>
+      </div>
+
+      <div class="balance-card">
+        <div class="small">Demo Wallet Balance</div>
+        <div class="balance">$<span id="walletBalance">10,000.00</span></div>
+
+        <div class="actions">
+
+          <button class="action-btn" onclick="openModal('deposit')">
+            Deposit
+          </button>
+
+          <button class="action-btn secondary" onclick="openModal('withdraw')">
+            Withdraw
+          </button>
+
+        </div>
+      </div>
+
+      <div class="notice">
+        این کیف پول در نسخه فعلی آزمایشی است و به شبکه بلاکچین یا
+        حساب بانکی متصل نیست.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE PAGE -->
+  <section id="profilePage" class="hidden">
+
+    <div class="profile">
+
+      <div class="avatar">A</div>
+
+      <h2>Arshan User</h2>
+      <p>Demo Account</p>
+
+      <div class="profile-card">
+
+        <div class="profile-row">
+          <span>Account ID</span>
+          <span>DEMO-001</span>
+        </div>
+
+        <div class="profile-row">
+          <span>Status</span>
+          <span style="color:#37d17c">Active</span>
+        </div>
+
+        <div class="profile-row">
+          <span>Verification</span>
+          <span>Demo</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
 </div>
 
-<div class="mine-total"><span id="totalCP">0</span><small>CP MINED</small></div>
 
-<div class="mine-wrap">
-<div class="mine-ring" id="mineRing" onclick="mineCP(event)">
-<div class="mine-circle">
-<div class="cp-logo">CP</div>
-<div class="arshan">ARSHAN COIN</div>
-<div class="tap-hint">TAP TO MINE</div>
-</div>
-</div>
-</div>
+<!-- MODAL -->
 
-<div class="limit-card">
-<div class="limit-row">
-<div>
-<div class="limit-label">MINING LIMIT</div>
-<div class="limit-value"><span id="mineLeft">1000</span> / <span id="mineLimit">1000</span></div>
-</div>
-<div class="gold" id="levelText">LEVEL 0</div>
-</div>
-<div class="bar"><i id="mineBar"></i></div>
-<div class="level-box">
-<span>Next level: <b id="nextLevel">15,000 CP</b></span>
-<span id="rechargeText">Ready</span>
-</div>
-</div>
-</section>
+<div class="modal" id="modal">
 
-<section id="store" class="page">
-<div class="card"><h2>Store</h2><div class="muted">Use Online Game Score to upgrade your mining capacity and buy skins.</div></div>
+  <div class="modal-box">
 
-<div class="card">
-<h3>Mining Capacity</h3>
+    <h2 id="modalTitle">Deposit</h2>
 
-<div class="store-item">
-<div class="skin-preview">⛏️</div>
-<div class="skin-info"><strong>+500 Mining Capacity</strong><div class="skin-price">Level 2 • 5,000 Score</div></div>
-<button class="buy" id="upgrade2" onclick="buyCapacity(2,5000)">BUY</button>
+    <div class="notice">
+      نسخه فعلی DEMO است. این عملیات هیچ انتقال واقعی ارز
+      یا پول انجام نمی‌دهد.
+    </div>
+
+    <input
+      id="amount"
+      class="input"
+      type="number"
+      placeholder="Enter amount"
+    >
+
+    <button
+      class="action-btn"
+      style="width:100%"
+      onclick="processTransaction()">
+      Confirm Demo
+    </button>
+
+    <button
+      class="close"
+      onclick="closeModal()">
+      Cancel
+    </button>
+
+  </div>
+
 </div>
 
-<div class="store-item">
-<div class="skin-preview">⚡</div>
-<div class="skin-info"><strong>+500 Mining Capacity</strong><div class="skin-price">Level 3 • 10,000 Score</div></div>
-<button class="buy" id="upgrade3" onclick="buyCapacity(3,10000)">BUY</button>
-</div>
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+  <button class="active" onclick="showPage('home',this)">
+    <span class="nav-icon">⌂</span>
+    Home
+  </button>
+
+  <button onclick="showPage('investment',this)">
+    <span class="nav-icon">📈</span>
+    Invest
+  </button>
+
+  <button onclick="showPage('wallet',this)">
+    <span class="nav-icon">💳</span>
+    Wallet
+  </button>
+
+  <button onclick="showPage('profile',this)">
+    <span class="nav-icon">👤</span>
+    Profile
+  </button>
+
 </div>
 
-<div class="card">
-<h3>Mining Skins</h3>
-<div id="skins"></div>
-</div>
-</section>
-
-<section id="game" class="page">
-<div class="card">
-<div class="game-head">
-<div><h2 style="margin:0">Online Game</h2><div class="muted">Catch the moving coins!</div></div>
-<div class="live-score">+5</div>
-</div>
-<div style="text-align:right;margin-bottom:10px">Score: <b class="gold" id="gameScore">0</b></div>
-<div class="game-area" id="gameArea"></div>
-<button class="game-start" onclick="startGame()">START GAME</button>
-<div class="cooldown" id="gameLimitText">Coins: 1,000 / 1,000</div>
-</div>
-</section>
-
-<section id="channels" class="page">
-<div class="card">
-<h2>Channels</h2>
-<div class="channel-row">
-<strong>Telegram</strong>
-<div class="muted">Join the official channel</div>
-<a class="channel-btn" href="https://t.me/Arshancoincp" target="_blank" onclick="telegramReward()">JOIN TELEGRAM • +500 CP</a>
-</div>
-<div class="channel-row"><strong>Instagram</strong><div class="muted">Coming soon</div></div>
-<div class="channel-row"><strong>YouTube</strong><div class="muted">Coming soon</div></div>
-<div class="channel-row"><strong>Twitter / X</strong><div class="muted">Coming soon</div></div>
-</div>
-
-<div class="card">
-<h2>Invite Friends</h2>
-<div class="muted">Reward: <b class="gold">1,000 CP</b> per successful referral.</div>
-<button class="invite-btn" onclick="shareInvite()">INVITE FRIENDS</button>
-<div class="invite-code" id="inviteLink">Creating...</div>
-<p class="muted">Invites: <b id="inviteCount">0</b></p>
-</div>
-</section>
-
-<section id="wallet" class="page">
-<div class="card wallet-box">
-<div class="wallet-icon">💼</div>
-<h2>Wallet</h2>
-<div class="muted">Connect your TON wallet when wallet integration is ready.</div>
-<button class="wallet-btn" onclick="showToast('Tonkeeper connection coming soon')">CONNECT TONKEEPER</button>
-</div>
-</section>
-
-<nav class="nav">
-<button class="active" onclick="openPage('mine',this)"><span class="nav-icon">⛏️</span>Mine</button>
-<button onclick="openPage('store',this)"><span class="nav-icon">🛒</span>Store</button>
-<button onclick="openPage('game',this)"><span class="nav-icon">🎮</span>Online Game</button>
-<button onclick="openPage('channels',this)"><span class="nav-icon">📢</span>Channels</button>
-<button onclick="openPage('wallet',this)"><span class="nav-icon">💼</span>Wallet</button>
-</nav>
-
-<div class="toast" id="toast"></div>
 
 <script>
 
-// ===============================
-// SUPABASE
-// ===============================
+/* =========================
+   DEMO STATE
+========================= */
 
-const SUPABASE_URL="https://oexoqpzasniqyimbrww.supabase.co";
-
-const SUPABASE_KEY="sb_publishable_BCQbZkPZvIsivwuUSZlEeg_c7fh8LRu";
-
-let playerId=localStorage.getItem("arshan_device_id");
-
-if(!playerId){
-playerId="device_"+crypto.randomUUID();
-localStorage.setItem("arshan_device_id",playerId);
-}
-
-const KEY="arshan_coin_local_v2";
-
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
-cp:0,
-limit:1000,
-left:1000,
-gameScore:0,
-gameCoins:1000,
-gameMax:1000,
-lastMine:0,
-lastGame:0,
-clicks:0,
-invites:0,
-skin:"default"
-};
-
-function saveLocal(){
-localStorage.setItem(KEY,JSON.stringify(data));
-}
-
-async function dbLoad(){
-
-try{
-
-const res=await fetch(
-SUPABASE_URL+"/rest/v1/players?device_id=eq."+encodeURIComponent(playerId)+"&select=*",
-{
-headers:{
-apikey:SUPABASE_KEY,
-Authorization:"Bearer "+SUPABASE_KEY
-}
-}
+let balance = Number(
+  localStorage.getItem("arshan_balance") || 10000
 );
 
-if(!res.ok){
-console.log("Supabase load failed:",res.status);
-return;
-}
+let currentAction = "";
 
-const rows=await res.json();
 
-if(rows.length){
+/* =========================
+   FORMAT MONEY
+========================= */
 
-const p=rows[0];
+function formatMoney(value){
 
-data.cp=p.cp;
-data.limit=p.mining_limit;
-data.left=p.mining_left;
-data.gameScore=p.game_score;
-data.gameCoins=p.game_coins;
-data.gameMax=p.game_max;
-data.skin=p.skin;
-data.invites=p.invites;
-
-saveLocal();
-updateUI();
-
-}else{
-
-await dbSave();
+  return Number(value).toLocaleString(
+    "en-US",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
 
 }
 
-}catch(e){
 
-console.log("Supabase load error",e);
+/* =========================
+   UPDATE BALANCE
+========================= */
 
-}
+function updateBalance(){
 
-}
+  document.getElementById("balance").innerText =
+    formatMoney(balance);
 
-let dbSaving=false;
+  document.getElementById("walletBalance").innerText =
+    formatMoney(balance);
 
-async function dbSave(){
-
-saveLocal();
-
-if(dbSaving)return;
-
-dbSaving=true;
-
-try{
-
-await fetch(
-SUPABASE_URL+"/rest/v1/players?on_conflict=device_id",
-{
-method:"POST",
-headers:{
-apikey:SUPABASE_KEY,
-Authorization:"Bearer "+SUPABASE_KEY,
-"Content-Type":"application/json",
-Prefer:"resolution=merge-duplicates,return=minimal"
-},
-body:JSON.stringify({
-device_id:playerId,
-cp:data.cp,
-mining_limit:data.limit,
-mining_left:data.left,
-game_score:data.gameScore,
-game_coins:data.gameCoins,
-game_max:data.gameMax,
-skin:data.skin,
-invites:data.invites,
-updated_at:new Date().toISOString()
-})
-}
-);
-
-}catch(e){
-
-console.log("Supabase save error",e);
+  localStorage.setItem(
+    "arshan_balance",
+    balance
+  );
 
 }
 
-dbSaving=false;
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(type){
+
+  currentAction = type;
+
+  document.getElementById("modal").style.display =
+    "flex";
+
+  document.getElementById("modalTitle").innerText =
+    type === "deposit"
+      ? "Demo Deposit"
+      : "Demo Withdraw";
+
+  document.getElementById("amount").value = "";
 
 }
 
-function level(){
-return Math.floor(data.cp/15000);
-}
 
-function format(n){
-return Number(n).toLocaleString("en-US");
-}
+function closeModal(){
 
-function updateUI(){
-
-const lv=level();
-
-document.getElementById("totalCP").textContent=format(data.cp);
-document.getElementById("mineLeft").textContent=format(data.left);
-document.getElementById("mineLimit").textContent=format(data.limit);
-document.getElementById("topGameScore").textContent=format(data.gameScore);
-document.getElementById("gameScore").textContent=format(data.gameScore);
-document.getElementById("inviteCount").textContent=format(data.invites);
-document.getElementById("levelText").textContent="LEVEL "+lv;
-
-const pct=Math.max(
-0,
-Math.min(100,(data.left/data.limit)*100)
-);
-
-document.getElementById("mineBar").style.width=pct+"%";
-
-document.getElementById("nextLevel").textContent=
-format((lv+1)*15000)+" CP";
-
-document.getElementById("upgrade2").disabled=
-lv<2||data.limit>=1500||data.gameScore<5000;
-
-document.getElementById("upgrade3").disabled=
-lv<3||data.limit>=2000||data.gameScore<10000;
-
-document.getElementById("gameLimitText").textContent=
-"Coins: "+format(data.gameCoins)+" / "+format(data.gameMax)+" • Recharge every 2 hours";
-
-applySkin();
-
-saveLocal();
+  document.getElementById("modal").style.display =
+    "none";
 
 }
 
-function update(){
-updateUI();
-dbSave();
-}
 
-function mineCP(e){
+/* =========================
+   TRANSACTION
+========================= */
 
-if(data.left<=0){
+function processTransaction(){
 
-showToast("Mining limit finished. Recharge started.");
+  const amount =
+    Number(document.getElementById("amount").value);
 
-return;
+  if(!amount || amount <= 0){
 
-}
+    alert("Enter a valid amount.");
 
-data.cp++;
-data.left--;
-data.clicks++;
+    return;
 
-showPlus(e);
+  }
 
-if(data.clicks>=10){
 
-data.clicks=0;
+  if(currentAction === "deposit"){
 
-showToast("❤️ Nice!");
+    balance += amount;
 
-}
+    addTransaction(
+      "Demo Deposit",
+      "+" + formatMoney(amount),
+      "deposit"
+    );
 
-if(data.left===0){
+  }
 
-data.lastMine=Date.now();
 
-showToast("Mining limit reached.");
+  if(currentAction === "withdraw"){
 
-}
+    if(amount > balance){
 
-update();
+      alert("Insufficient demo balance.");
 
-}
+      return;
 
-function showPlus(e){
+    }
 
-const p=document.createElement("div");
+    balance -= amount;
 
-p.className="plus";
+    addTransaction(
+      "Demo Withdraw",
+      "-" + formatMoney(amount),
+      "withdraw"
+    );
 
-p.textContent="+1 CP";
+  }
 
-p.style.left=(e.clientX||innerWidth/2)+"px";
-p.style.top=(e.clientY||innerHeight/2)+"px";
 
-document.body.appendChild(p);
+  updateBalance();
 
-setTimeout(()=>p.remove(),750);
-
-}
-
-function processMineRecharge(){
-
-if(data.left>=data.limit||!data.lastMine)return;
-
-const hour=60*60*1000;
-
-const elapsed=Date.now()-data.lastMine;
-
-const recovered=Math.floor(
-(elapsed/hour)*data.limit
-);
-
-if(recovered>0){
-
-data.left=Math.min(
-data.limit,
-data.left+recovered
-);
-
-if(data.left>=data.limit){
-
-data.lastMine=0;
-
-}else{
-
-data.lastMine=Date.now();
+  closeModal();
 
 }
 
-update();
+
+/* =========================
+   TRANSACTION HISTORY
+========================= */
+
+function addTransaction(
+  title,
+  amount,
+  type
+){
+
+  const history =
+    document.getElementById("history");
+
+  const div =
+    document.createElement("div");
+
+  div.className =
+    "transaction";
+
+  const date =
+    new Date().toLocaleString();
+
+  div.innerHTML = `
+
+    <div class="tx-left">
+
+      <div class="tx-title">
+        ${title}
+      </div>
+
+      <div class="tx-date">
+        ${date}
+      </div>
+
+    </div>
+
+    <div class="${type}">
+      ${amount}
+    </div>
+
+  `;
+
+  history.prepend(div);
 
 }
 
-const remaining=Math.max(
-0,
-hour-(elapsed%hour)
-);
 
-if(data.left<data.limit){
+/* =========================
+   DEMO INVESTMENT
+========================= */
 
-const m=Math.floor(remaining/60000);
-const s=Math.floor((remaining%60000)/1000);
+function invest(amount){
 
-document.getElementById("rechargeText").textContent=
-"Recharge "+
-String(m).padStart(2,"0")+":"+
-String(s).padStart(2,"0");
+  if(balance < amount){
 
-}else{
+    alert(
+      "Not enough demo balance."
+    );
 
-document.getElementById("rechargeText").textContent="Ready";
+    return;
 
-}
+  }
 
-}
 
-function buyCapacity(requiredLevel,cost){
+  balance -= amount;
 
-if(level()<requiredLevel){
+  updateBalance();
 
-showToast("You need Level "+requiredLevel);
 
-return;
+  addTransaction(
+    "Demo Investment",
+    "-" + formatMoney(amount),
+    "withdraw"
+  );
 
-}
 
-if(data.gameScore<cost){
-
-showToast("Not enough Game Score");
-
-return;
+  alert(
+    "Demo investment activated."
+  );
 
 }
 
-if(requiredLevel===2&&data.limit>=1500)return;
-if(requiredLevel===3&&data.limit>=2000)return;
 
-data.gameScore-=cost;
+/* =========================
+   PAGE NAVIGATION
+========================= */
 
-data.limit+=500;
+function hideAllPages(){
 
-data.left+=500;
+  document
+    .getElementById("homePage")
+    .classList.add("hidden");
 
-showToast("+500 Mining Capacity");
+  document
+    .getElementById("investmentPage")
+    .classList.add("hidden");
 
-update();
+  document
+    .getElementById("walletPage")
+    .classList.add("hidden");
 
-}
-
-const skinList=[
-["Color",2000,"color","🎨","linear-gradient(135deg,#ff4d6d,#7b2cff,#21d4fd)"],
-["Dragon",5000,"dragon","🐉","linear-gradient(135deg,#168b35,#6a3b15)"],
-["Ice Cream",7000,"ice","🍦","linear-gradient(135deg,#8ee7ff,#fff)"],
-["Cute",10000,"cute","🧸","linear-gradient(135deg,#ffb5d0,#fff)"],
-["Chocolate",15000,"chocolate","🍫","linear-gradient(135deg,#5a2d19,#d18b54)"],
-["Barbie",22000,"barbie","💗","linear-gradient(135deg,#ff5fa2,#ff9ed0)"],
-["Fire Dragon",35000,"fire","🔥","linear-gradient(135deg,#ff3b17,#ffd21f)"]
-];
-
-function renderSkins(){
-
-const box=document.getElementById("skins");
-
-box.innerHTML=skinList.map(s=>`
-
-<div class="store-item">
-
-<div class="skin-preview" style="background:${s[4]}">
-${s[3]}
-</div>
-
-<div class="skin-info">
-
-<strong>${s[0]}</strong>
-
-<div class="skin-price">
-${format(s[1])} Score
-</div>
-
-</div>
-
-<button class="buy"
-onclick="buySkin('${s[0]}',${s[1]},'${s[2]}')">
-BUY
-</button>
-
-</div>
-
-`).join("");
+  document
+    .getElementById("profilePage")
+    .classList.add("hidden");
 
 }
 
-function buySkin(name,cost,type){
 
-if(data.gameScore<cost){
+function showPage(page,button){
 
-showToast("Not enough Game Score");
+  hideAllPages();
 
-return;
 
-}
+  if(page === "home"){
 
-data.gameScore-=cost;
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
 
-data.skin=type;
+  }
 
-showToast(name+" Skin purchased!");
 
-update();
+  if(page === "investment"){
 
-}
+    document
+      .getElementById("investmentPage")
+      .classList.remove("hidden");
 
-function applySkin(){
+  }
 
-const ring=document.querySelector(".mine-ring");
 
-if(!ring)return;
+  if(page === "wallet"){
 
-const styles={
+    document
+      .getElementById("walletPage")
+      .classList.remove("hidden");
 
-default:"linear-gradient(135deg,#fff1a0,#b88619 25%,#ffd94d 48%,#6d4b0b 75%,#e5bd45)",
+  }
 
-color:"linear-gradient(135deg,#ff4d6d,#7b2cff,#21d4fd)",
 
-dragon:"linear-gradient(135deg,#1ed760,#163d25,#7a3b16)",
+  if(page === "profile"){
 
-ice:"linear-gradient(135deg,#8ee7ff,#ffffff,#78bfff)",
+    document
+      .getElementById("profilePage")
+      .classList.remove("hidden");
 
-cute:"linear-gradient(135deg,#ffb5d0,#fff,#ff8ab8)",
+  }
 
-chocolate:"linear-gradient(135deg,#5a2d19,#d18b54,#3a170c)",
 
-barbie:"linear-gradient(135deg,#ff5fa2,#ffb5db,#d83291)",
+  document
+    .querySelectorAll(".nav button")
+    .forEach(
+      btn => btn.classList.remove("active")
+    );
 
-fire:"linear-gradient(135deg,#ff3215,#ffd21f,#8e1600)"
 
-};
-
-ring.style.background=
-styles[data.skin]||styles.default;
-
-}
-
-let gameTimer=null;
-let gameRunning=false;
-
-function startGame(){
-
-processGameRecharge();
-
-if(data.gameCoins<=0){
-
-showToast("Game limit finished.");
-
-return;
+  button.classList.add("active");
 
 }
 
-if(gameRunning)return;
 
-gameRunning=true;
+/* =========================
+   HOME
+========================= */
 
-spawnCoin();
+function goHome(){
 
-}
+  const firstButton =
+    document.querySelector(".nav button");
 
-function spawnCoin(){
-
-const area=document.getElementById("gameArea");
-
-area.innerHTML="";
-
-if(data.gameCoins<=0){
-
-gameRunning=false;
-
-update();
-
-return;
+  showPage(
+    "home",
+    firstButton
+  );
 
 }
 
-const c=document.createElement("div");
 
-c.className="game-coin";
+/* =========================
+   START
+========================= */
 
-c.textContent="🪙";
-
-c.style.left=(Math.random()*82+3)+"%";
-c.style.top=(Math.random()*82+3)+"%";
-
-area.appendChild(c);
-
-let hit=false;
-
-c.onclick=function(){
-
-if(hit)return;
-
-hit=true;
-
-data.gameCoins--;
-
-data.gameScore+=5;
-
-showToast("+5 Game Score");
-
-update();
-
-if(c.parentNode)c.remove();
-
-clearTimeout(gameTimer);
-
-spawnCoin();
-
-};
-
-gameTimer=setTimeout(()=>{
-
-if(hit)return;
-
-if(c.parentNode)c.remove();
-
-spawnCoin();
-
-},650);
-
-}
-
-function processGameRecharge(){
-
-if(data.gameCoins>=data.gameMax||!data.lastGame)return;
-
-const twoHours=2*60*60*1000;
-
-const elapsed=Date.now()-data.lastGame;
-
-const recovered=Math.floor(
-(elapsed/twoHours)*data.gameMax
-);
-
-if(recovered>0){
-
-data.gameCoins=Math.min(
-data.gameMax,
-data.gameCoins+recovered
-);
-
-if(data.gameCoins>=data.gameMax){
-
-data.lastGame=0;
-
-}else{
-
-data.lastGame=Date.now();
-
-}
-
-update();
-
-}
-
-}
-
-function telegramReward(){
-
-const key="telegram_rewarded";
-
-if(localStorage.getItem(key))return;
-
-localStorage.setItem(key,"1");
-
-data.cp+=500;
-
-showToast("+500 CP");
-
-update();
-
-}
-
-function openPage(id,btn){
-
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-
-document.getElementById(id)
-.classList.add("active");
-
-document.querySelectorAll(".nav button")
-.forEach(b=>b.classList.remove("active"));
-
-if(btn)btn.classList.add("active");
-
-}
-
-function showToast(text){
-
-const t=document.getElementById("toast");
-
-t.textContent=text;
-
-t.classList.add("show");
-
-clearTimeout(window.toastTimer);
-
-window.toastTimer=setTimeout(
-()=>t.classList.remove("show"),
-1800
-);
-
-}
-
-function createInviteLink(){
-
-const base=
-location.href.split("?")[0].split("#")[0];
-
-const code=
-"ARSHAN"+
-Math.random()
-.toString(36)
-.slice(2,8)
-.toUpperCase();
-
-return base+"?ref="+code;
-
-}
-
-let inviteLink=createInviteLink();
-
-document.getElementById("inviteLink")
-.textContent=inviteLink;
-
-async function shareInvite(){
-
-if(navigator.share){
-
-try{
-
-await navigator.share({
-
-title:"Arshan Coin",
-
-text:"Join Arshan Coin and start mining CP!",
-
-url:inviteLink
-
-});
-
-showToast("Invite shared");
-
-return;
-
-}catch(e){}
-
-}
-
-try{
-
-await navigator.clipboard
-.writeText(inviteLink);
-
-showToast("Invite link copied");
-
-}catch(e){
-
-prompt(
-"Copy your invite link:",
-inviteLink
-);
-
-}
-
-}
-
-function handleReferral(){
-
-const params=
-new URLSearchParams(location.search);
-
-const ref=params.get("ref");
-
-if(!ref)return;
-
-const used="arshan_ref_used";
-
-if(localStorage.getItem(used))return;
-
-localStorage.setItem(used,ref);
-
-}
-
-renderSkins();
-
-handleReferral();
-
-updateUI();
-
-dbLoad();
-
-setInterval(()=>{
-
-processMineRecharge();
-
-processGameRecharge();
-
-},1000);
+updateBalance();
 
 </script>
 
