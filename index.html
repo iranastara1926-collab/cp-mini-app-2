@@ -1,412 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arshan Exchange</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>METAL</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#050807;color:#fff}
+.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:85px;
+background:radial-gradient(circle at top,#0d2418,#050807 42%)}
 
-body{
-  background:#07090d;
-  color:#fff;
-  min-height:100vh;
-}
+header{padding:22px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:900;color:#43f58a;letter-spacing:2px}
+.badge{font-size:10px;background:#10331f;color:#43f58a;border:1px solid #1c6739;padding:6px 9px;border-radius:20px}
 
-.app{
-  width:100%;
-  max-width:480px;
-  margin:auto;
-  min-height:100vh;
-  padding-bottom:90px;
-  background:
-    radial-gradient(circle at top,#17130a 0,#07090d 35%);
-}
+.card{margin:10px 15px;padding:20px;border-radius:22px;
+background:linear-gradient(145deg,#101914,#090d0b);
+border:1px solid #174d2d;box-shadow:0 15px 35px #0008}
 
-/* HEADER */
-.header{
-  padding:22px 18px 10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+.label{color:#84918a;font-size:12px}
+.balance{font-size:34px;font-weight:900;margin:9px 0}
+.green{color:#43f58a}
+.profit{color:#43f58a;font-size:13px}
 
-.logo{
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:1px;
-}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+button{border:0;cursor:pointer}
+.btn{padding:13px;border-radius:13px;font-weight:bold;background:#43f58a;color:#041008}
+.btn.dark{background:#151b17;color:white;border:1px solid #26352c}
 
-.logo span{
-  color:#f5b83d;
-}
+.section{padding:10px 15px}
+.title{display:flex;justify-content:space-between;margin:12px 0}
+.title h2{font-size:18px}
+.title span{font-size:11px;color:#43f58a}
 
-.demo{
-  font-size:11px;
-  padding:6px 10px;
-  border-radius:20px;
-  background:#251d0d;
-  color:#f5b83d;
-  border:1px solid #5d4618;
-}
+.coin,.history-row{display:flex;justify-content:space-between;align-items:center;
+padding:15px;margin-bottom:9px;background:#0c120f;border:1px solid #17241c;border-radius:16px}
+.coin-left{display:flex;align-items:center;gap:12px}
+.icon{width:42px;height:42px;border-radius:50%;background:#12251a;
+display:flex;align-items:center;justify-content:center;color:#43f58a;font-weight:bold;font-size:20px}
+.symbol{color:#707b74;font-size:11px;margin-top:3px}
+.up{color:#43f58a;font-size:11px}
 
-/* BALANCE */
-.balance-card{
-  margin:15px;
-  padding:22px;
-  border-radius:22px;
-  background:linear-gradient(145deg,#19140b,#0d1016);
-  border:1px solid #3a2d13;
-  box-shadow:0 12px 35px rgba(0,0,0,.35);
-}
+.plan{padding:18px;margin-bottom:10px;background:#0c120f;
+border:1px solid #193c27;border-radius:18px}
+.plan-head{display:flex;justify-content:space-between;margin-bottom:14px}
+.plan-rate{color:#43f58a;font-weight:bold}
+.plan-info{display:flex;justify-content:space-between;color:#7f8983;font-size:11px;margin-bottom:14px}
+.full{width:100%}
 
-.small{
-  color:#8d939d;
-  font-size:13px;
-}
+.usdt-circle{width:145px;height:145px;border-radius:50%;margin:20px auto;
+border:7px solid #43f58a;box-shadow:0 0 35px #43f58a55;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+background:#09120d}
+.usdt-circle b{font-size:35px;color:#43f58a}
+.usdt-circle small{color:#91a198}
 
-.balance{
-  font-size:34px;
-  font-weight:900;
-  margin:8px 0;
-}
+.notice{padding:13px;background:#101712;border:1px solid #20372a;
+border-radius:13px;color:#98a69e;font-size:11px;line-height:1.8}
 
-.balance span{
-  color:#f5b83d;
-}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+width:100%;max-width:480px;height:72px;background:#080c0a;
+border-top:1px solid #17231b;display:grid;grid-template-columns:repeat(4,1fr)}
+.nav button{background:none;color:#68736c;font-size:10px}
+.nav button.active{color:#43f58a}
+.nav i{display:block;font-style:normal;font-size:21px;margin-bottom:4px}
 
-.profit{
-  color:#37d17c;
-  font-size:13px;
-}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;
+align-items:flex-end;justify-content:center}
+.modal-box{max-width:480px;width:100%;background:#0d130f;
+border-radius:25px 25px 0 0;padding:22px;border:1px solid #1d3a28}
+input{width:100%;padding:14px;margin:10px 0;background:#050807;
+color:white;border:1px solid #294332;border-radius:12px;outline:none}
 
-/* BUTTONS */
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:20px;
-}
-
-button{
-  border:none;
-  cursor:pointer;
-}
-
-.action-btn{
-  padding:13px;
-  border-radius:13px;
-  font-weight:bold;
-  background:#f5b83d;
-  color:#090909;
-}
-
-.action-btn.secondary{
-  background:#171b22;
-  color:#fff;
-  border:1px solid #292e38;
-}
-
-/* SECTION */
-.section{
-  padding:10px 15px;
-}
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  margin:10px 0 12px;
-}
-
-.section-title h2{
-  font-size:18px;
-}
-
-.section-title span{
-  color:#f5b83d;
-  font-size:12px;
-}
-
-/* COINS */
-.coin{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px;
-  margin-bottom:9px;
-  border-radius:16px;
-  background:#101319;
-  border:1px solid #1d222b;
-}
-
-.coin-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.coin-icon{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#191d24;
-  font-weight:bold;
-  color:#f5b83d;
-}
-
-.coin-name{
-  font-weight:bold;
-}
-
-.coin-symbol{
-  color:#747b86;
-  font-size:11px;
-  margin-top:3px;
-}
-
-.coin-price{
-  text-align:right;
-}
-
-.coin-price strong{
-  display:block;
-}
-
-.up{
-  color:#37d17c;
-  font-size:11px;
-}
-
-/* INVESTMENTS */
-.plan{
-  padding:18px;
-  margin-bottom:10px;
-  background:linear-gradient(145deg,#11151c,#0b0e13);
-  border:1px solid #242a33;
-  border-radius:18px;
-}
-
-.plan-top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:14px;
-}
-
-.plan-name{
-  font-weight:bold;
-}
-
-.demo-profit{
-  color:#37d17c;
-  font-weight:bold;
-}
-
-.plan-info{
-  display:flex;
-  justify-content:space-between;
-  color:#858b95;
-  font-size:12px;
-  margin-bottom:14px;
-}
-
-.invest-btn{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  background:#f5b83d;
-  color:#080808;
-  font-weight:bold;
-}
-
-/* HISTORY */
-.history{
-  background:#101319;
-  border-radius:17px;
-  overflow:hidden;
-  border:1px solid #1d222b;
-}
-
-.transaction{
-  display:flex;
-  justify-content:space-between;
-  padding:14px;
-  border-bottom:1px solid #1d222b;
-}
-
-.transaction:last-child{
-  border-bottom:0;
-}
-
-.tx-left{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.tx-title{
-  font-size:13px;
-  font-weight:bold;
-}
-
-.tx-date{
-  font-size:10px;
-  color:#707680;
-}
-
-.deposit{
-  color:#37d17c;
-}
-
-.withdraw{
-  color:#ff6574;
-}
-
-/* NAV */
-.nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:480px;
-  height:72px;
-  background:#0d1015;
-  border-top:1px solid #20252e;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  z-index:10;
-}
-
-.nav button{
-  background:none;
-  color:#6f7680;
-  font-size:11px;
-}
-
-.nav button.active{
-  color:#f5b83d;
-}
-
-.nav-icon{
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
-}
-
-/* MODAL */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.78);
-  z-index:20;
-  align-items:flex-end;
-  justify-content:center;
-}
-
-.modal-box{
-  width:100%;
-  max-width:480px;
-  background:#11151b;
-  border-radius:25px 25px 0 0;
-  padding:22px;
-  border:1px solid #292e36;
-}
-
-.modal-box h2{
-  margin-bottom:18px;
-}
-
-.input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #2b313b;
-  background:#080b10;
-  color:white;
-  outline:none;
-  margin-bottom:12px;
-}
-
-.close{
-  width:100%;
-  padding:13px;
-  margin-top:8px;
-  border-radius:12px;
-  background:#1a1e25;
-  color:white;
-}
-
-.notice{
-  padding:12px;
-  border-radius:12px;
-  background:#1a160c;
-  color:#cdbd91;
-  font-size:11px;
-  line-height:1.6;
-  margin-bottom:14px;
-}
-
-/* PROFILE */
-.profile{
-  text-align:center;
-  padding:25px 15px;
-}
-
-.avatar{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#f5b83d,#79540f);
-  color:#080808;
-  font-size:30px;
-  font-weight:bold;
-}
-
-.profile h2{
-  margin-top:12px;
-}
-
-.profile p{
-  color:#777e89;
-  margin-top:5px;
-}
-
-.profile-card{
-  margin-top:20px;
-  background:#101319;
-  border:1px solid #1e242d;
-  border-radius:17px;
-  overflow:hidden;
-}
-
-.profile-row{
-  padding:15px;
-  border-bottom:1px solid #1e242d;
-  display:flex;
-  justify-content:space-between;
-}
-
-.profile-row:last-child{
-  border:0;
-}
-
-.hidden{
-  display:none;
-}
+.hidden{display:none!important}
+.profile{text-align:center;padding:25px 15px}
+.avatar{width:80px;height:80px;border-radius:50%;margin:auto;
+display:flex;align-items:center;justify-content:center;
+background:#43f58a;color:#061009;font-size:30px;font-weight:bold}
+.profile h2{margin-top:12px}
+.profile p{color:#77827b;margin-top:5px}
+.row{display:flex;justify-content:space-between;padding:16px;
+border-bottom:1px solid #1b2920;background:#0c120f}
 </style>
 </head>
 
@@ -414,658 +89,302 @@ button{
 
 <div class="app">
 
-  <div class="header">
-    <div class="logo">ARSHAN <span>EXCHANGE</span></div>
-    <div class="demo">DEMO</div>
+<header>
+  <div class="logo">METAL</div>
+  <div class="badge">SECURE</div>
+</header>
+
+<!-- HOME -->
+<section id="home">
+
+<div class="card">
+  <div class="label">موجودی کل</div>
+  <div class="balance">$<span id="balance">100.00</span></div>
+  <div class="profit">+ $0.00 بازده امروز</div>
+
+  <div class="actions">
+    <button class="btn" onclick="openModal('deposit')">واریز</button>
+    <button class="btn dark" onclick="openModal('withdraw')">برداشت</button>
   </div>
-
-  <!-- HOME -->
-  <main id="homePage">
-
-    <div class="balance-card">
-      <div class="small">Total Demo Balance</div>
-      <div class="balance">$<span id="balance">10,000.00</span></div>
-      <div class="profit">+ $125.40 today</div>
-
-      <div class="actions">
-        <button class="action-btn" onclick="openModal('deposit')">
-          Deposit
-        </button>
-
-        <button class="action-btn secondary" onclick="openModal('withdraw')">
-          Withdraw
-        </button>
-      </div>
-    </div>
-
-    <div class="section">
-
-      <div class="section-title">
-        <h2>Markets</h2>
-        <span>LIVE DEMO</span>
-      </div>
-
-      <div class="coin">
-        <div class="coin-left">
-          <div class="coin-icon">₿</div>
-          <div>
-            <div class="coin-name">Bitcoin</div>
-            <div class="coin-symbol">BTC</div>
-          </div>
-        </div>
-        <div class="coin-price">
-          <strong>$61,420</strong>
-          <span class="up">+2.41%</span>
-        </div>
-      </div>
-
-      <div class="coin">
-        <div class="coin-left">
-          <div class="coin-icon">Ξ</div>
-          <div>
-            <div class="coin-name">Ethereum</div>
-            <div class="coin-symbol">ETH</div>
-          </div>
-        </div>
-        <div class="coin-price">
-          <strong>$2,740</strong>
-          <span class="up">+1.87%</span>
-        </div>
-      </div>
-
-      <div class="coin">
-        <div class="coin-left">
-          <div class="coin-icon">₮</div>
-          <div>
-            <div class="coin-name">Tether</div>
-            <div class="coin-symbol">USDT</div>
-          </div>
-        </div>
-        <div class="coin-price">
-          <strong>$1.00</strong>
-          <span class="up">+0.01%</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="section">
-
-      <div class="section-title">
-        <h2>Investment</h2>
-        <span>DEMO PLANS</span>
-      </div>
-
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-name">Starter</div>
-          <div class="demo-profit">0.5% / day*</div>
-        </div>
-
-        <div class="plan-info">
-          <span>Minimum: $100</span>
-          <span>Demo period: 7 days</span>
-        </div>
-
-        <button class="invest-btn" onclick="invest(100)">
-          Invest $100 Demo
-        </button>
-      </div>
-
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-name">Advanced</div>
-          <div class="demo-profit">1% / day*</div>
-        </div>
-
-        <div class="plan-info">
-          <span>Minimum: $500</span>
-          <span>Demo period: 14 days</span>
-        </div>
-
-        <button class="invest-btn" onclick="invest(500)">
-          Invest $500 Demo
-        </button>
-      </div>
-
-      <div class="plan">
-        <div class="plan-top">
-          <div class="plan-name">Premium</div>
-          <div class="demo-profit">2% / day*</div>
-        </div>
-
-        <div class="plan-info">
-          <span>Minimum: $1,000</span>
-          <span>Demo period: 30 days</span>
-        </div>
-
-        <button class="invest-btn" onclick="invest(1000)">
-          Invest $1,000 Demo
-        </button>
-      </div>
-
-      <div class="notice">
-        * این درصدها فقط برای شبیه‌سازی رابط کاربری هستند و نشان‌دهنده
-        بازده واقعی یا تضمین‌شده سرمایه‌گذاری نیستند.
-      </div>
-
-    </div>
-
-    <div class="section">
-
-      <div class="section-title">
-        <h2>Transactions</h2>
-        <span>HISTORY</span>
-      </div>
-
-      <div class="history" id="history">
-
-        <div class="transaction">
-          <div class="tx-left">
-            <div class="tx-title">Demo Account</div>
-            <div class="tx-date">Initial balance</div>
-          </div>
-          <div class="deposit">+$10,000</div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <!-- INVESTMENT PAGE -->
-  <section id="investmentPage" class="hidden">
-
-    <div class="section">
-      <div class="section-title">
-        <h2>My Investments</h2>
-        <span>DEMO</span>
-      </div>
-
-      <div class="plan">
-
-        <div class="plan-top">
-          <div class="plan-name">No active investment</div>
-          <div class="demo-profit">0.00%</div>
-        </div>
-
-        <div class="plan-info">
-          <span>Choose a demo plan</span>
-          <span>Simulation</span>
-        </div>
-
-        <button class="invest-btn" onclick="goHome()">
-          View Plans
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- WALLET PAGE -->
-  <section id="walletPage" class="hidden">
-
-    <div class="section">
-
-      <div class="section-title">
-        <h2>Wallet</h2>
-        <span>DEMO</span>
-      </div>
-
-      <div class="balance-card">
-        <div class="small">Demo Wallet Balance</div>
-        <div class="balance">$<span id="walletBalance">10,000.00</span></div>
-
-        <div class="actions">
-
-          <button class="action-btn" onclick="openModal('deposit')">
-            Deposit
-          </button>
-
-          <button class="action-btn secondary" onclick="openModal('withdraw')">
-            Withdraw
-          </button>
-
-        </div>
-      </div>
-
-      <div class="notice">
-        این کیف پول در نسخه فعلی آزمایشی است و به شبکه بلاکچین یا
-        حساب بانکی متصل نیست.
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE PAGE -->
-  <section id="profilePage" class="hidden">
-
-    <div class="profile">
-
-      <div class="avatar">A</div>
-
-      <h2>Arshan User</h2>
-      <p>Demo Account</p>
-
-      <div class="profile-card">
-
-        <div class="profile-row">
-          <span>Account ID</span>
-          <span>DEMO-001</span>
-        </div>
-
-        <div class="profile-row">
-          <span>Status</span>
-          <span style="color:#37d17c">Active</span>
-        </div>
-
-        <div class="profile-row">
-          <span>Verification</span>
-          <span>Demo</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
+</div>
+
+<div class="section">
+<div class="title"><h2>بازار</h2><span>MARKET</span></div>
+
+<div class="coin">
+ <div class="coin-left"><div class="icon">₿</div>
+ <div><b>Bitcoin</b><div class="symbol">BTC</div></div></div>
+ <div><b>$61,420</b><div class="up">+2.41%</div></div>
+</div>
+
+<div class="coin">
+ <div class="coin-left"><div class="icon">Ξ</div>
+ <div><b>Ethereum</b><div class="symbol">ETH</div></div></div>
+ <div><b>$2,740</b><div class="up">+1.87%</div></div>
+</div>
+
+<div class="coin">
+ <div class="coin-left"><div class="icon">₮</div>
+ <div><b>Tether</b><div class="symbol">USDT</div></div></div>
+ <div><b>$1.00</b><div class="up">+0.01%</div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="title"><h2>سرمایه‌گذاری</h2><span>INVEST</span></div>
+
+<div class="plan">
+<div class="plan-head"><b>شروع</b><span class="plan-rate">بازده متغیر</span></div>
+<div class="plan-info"><span>حداقل 10 USDT</span><span>بدون تضمین</span></div>
+<button class="btn full" onclick="activate(10)">فعال‌سازی</button>
+</div>
+
+<div class="plan">
+<div class="plan-head"><b>Standard</b><span class="plan-rate">بازده متغیر</span></div>
+<div class="plan-info"><span>حداقل 20 USDT</span><span>بدون تضمین</span></div>
+<button class="btn full" onclick="activate(20)">فعال‌سازی</button>
+</div>
+
+<div class="plan">
+<div class="plan-head"><b>Premium</b><span class="plan-rate">بازده متغیر</span></div>
+<div class="plan-info"><span>حداقل 50 USDT</span><span>بدون تضمین</span></div>
+<button class="btn full" onclick="activate(50)">فعال‌سازی</button>
+</div>
 
 </div>
 
+</section>
+
+<!-- INVESTMENT -->
+<section id="invest" class="hidden">
+<div class="section">
+<div class="title"><h2>سرمایه‌گذاری من</h2><span>MY INVESTMENT</span></div>
+
+<div class="card">
+<div class="label">سرمایه فعال</div>
+<div class="balance">$<span id="investAmount">0.00</span></div>
+
+<div class="usdt-circle" onclick="claim()">
+<b>₮</b>
+<small>دریافت بازده</small>
+</div>
+
+<div class="profit">بازده قابل دریافت: $<span id="profit">0.00</span></div>
+
+<br>
+
+<div class="notice">
+این نسخه رابط کاربری است. بازده واقعی پس از اتصال Backend و
+منبع مالی معتبر محاسبه خواهد شد و سود تضمین‌شده نیست.
+</div>
+</div>
+</div>
+</section>
+
+<!-- WALLET -->
+<section id="wallet" class="hidden">
+<div class="section">
+<div class="title"><h2>کیف پول</h2><span>WALLET</span></div>
+
+<div class="card">
+<div class="label">USDT</div>
+<div class="balance">$<span id="wallet">100.00</span></div>
+
+<div class="actions">
+<button class="btn" onclick="openModal('deposit')">واریز</button>
+<button class="btn dark" onclick="openModal('withdraw')">برداشت</button>
+</div>
+</div>
+
+<div class="notice">
+برای واریز واقعی، در نسخه نهایی این قسمت به سرویس پرداخت/بلاکچین
+و Backend امن متصل می‌شود.
+</div>
+</div>
+</section>
+
+<!-- PROFILE -->
+<section id="profile" class="hidden">
+<div class="profile">
+
+<div class="avatar">M</div>
+<h2>کاربر METAL</h2>
+<p>حساب کاربری</p>
+
+<div class="card">
+<div class="row"><span>موجودی</span><span>$<b id="profileBalance">100.00</b></span></div>
+<div class="row"><span>سرمایه فعال</span><span>$<b id="profileInvest">0.00</b></span></div>
+<div class="row"><span>بازده</span><span class="green">$<b id="profileProfit">0.00</b></span></div>
+</div>
+
+<div class="actions">
+<button class="btn" onclick="openModal('deposit')">واریز</button>
+<button class="btn dark" onclick="openModal('withdraw')">برداشت</button>
+</div>
+
+<br>
+
+<div class="notice">
+<b>درباره METAL</b><br>
+METAL یک پلتفرم مدیریت دارایی دیجیتال با تمرکز بر
+امنیت، شفافیت و ابزارهای مدیریت سرمایه است.
+هرگونه بازده سرمایه‌گذاری وابسته به عملکرد واقعی دارایی‌ها
+و شرایط بازار است و سود ثابت یا تضمینی ارائه نمی‌شود.
+</div>
+
+<br>
+
+<button class="btn full" onclick="changeLang()">🌐 تغییر زبان</button>
+
+</div>
+</section>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button class="active" onclick="page('home',this)"><i>⌂</i>خانه</button>
+<button onclick="page('invest',this)"><i>📈</i>سرمایه</button>
+<button onclick="page('wallet',this)"><i>💳</i>کیف پول</button>
+<button onclick="page('profile',this)"><i>👤</i>پروفایل</button>
+</div>
 
 <!-- MODAL -->
-
 <div class="modal" id="modal">
+<div class="modal-box">
 
-  <div class="modal-box">
+<h2 id="modalTitle">واریز</h2>
 
-    <h2 id="modalTitle">Deposit</h2>
-
-    <div class="notice">
-      نسخه فعلی DEMO است. این عملیات هیچ انتقال واقعی ارز
-      یا پول انجام نمی‌دهد.
-    </div>
-
-    <input
-      id="amount"
-      class="input"
-      type="number"
-      placeholder="Enter amount"
-    >
-
-    <button
-      class="action-btn"
-      style="width:100%"
-      onclick="processTransaction()">
-      Confirm Demo
-    </button>
-
-    <button
-      class="close"
-      onclick="closeModal()">
-      Cancel
-    </button>
-
-  </div>
-
+<div class="notice">
+این نسخه هنوز به شبکه بلاکچین متصل نیست.
+برای اتصال واقعی باید Backend و API رسمی سرویس پرداخت
+راه‌اندازی شود.
 </div>
 
+<input id="amount" type="number" placeholder="مبلغ USDT">
 
-<!-- NAVIGATION -->
+<button class="btn full" onclick="submitTx()">تأیید</button>
 
-<div class="nav">
+<br><br>
 
-  <button class="active" onclick="showPage('home',this)">
-    <span class="nav-icon">⌂</span>
-    Home
-  </button>
-
-  <button onclick="showPage('investment',this)">
-    <span class="nav-icon">📈</span>
-    Invest
-  </button>
-
-  <button onclick="showPage('wallet',this)">
-    <span class="nav-icon">💳</span>
-    Wallet
-  </button>
-
-  <button onclick="showPage('profile',this)">
-    <span class="nav-icon">👤</span>
-    Profile
-  </button>
+<button class="btn dark full" onclick="closeModal()">بستن</button>
 
 </div>
-
+</div>
 
 <script>
 
-/* =========================
-   DEMO STATE
-========================= */
+let balance=Number(localStorage.getItem("metal_balance")||100);
+let investment=Number(localStorage.getItem("metal_investment")||0);
+let profit=Number(localStorage.getItem("metal_profit")||0);
+let action="";
 
-let balance = Number(
-  localStorage.getItem("arshan_balance") || 10000
-);
-
-let currentAction = "";
-
-
-/* =========================
-   FORMAT MONEY
-========================= */
-
-function formatMoney(value){
-
-  return Number(value).toLocaleString(
-    "en-US",
-    {
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    }
-  );
-
+function money(x){
+ return Number(x).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
+function update(){
 
-/* =========================
-   UPDATE BALANCE
-========================= */
+ document.querySelectorAll("#balance,#wallet,#profileBalance")
+ .forEach(x=>x.innerText=money(balance));
 
-function updateBalance(){
+ document.getElementById("investAmount").innerText=money(investment);
+ document.getElementById("profileInvest").innerText=money(investment);
 
-  document.getElementById("balance").innerText =
-    formatMoney(balance);
+ document.getElementById("profit").innerText=money(profit);
+ document.getElementById("profileProfit").innerText=money(profit);
 
-  document.getElementById("walletBalance").innerText =
-    formatMoney(balance);
-
-  localStorage.setItem(
-    "arshan_balance",
-    balance
-  );
-
+ localStorage.setItem("metal_balance",balance);
+ localStorage.setItem("metal_investment",investment);
+ localStorage.setItem("metal_profit",profit);
 }
 
+function page(name,btn){
 
-/* =========================
-   MODAL
-========================= */
+ ["home","invest","wallet","profile"].forEach(x=>{
+   document.getElementById(x).classList.add("hidden");
+ });
+
+ document.getElementById(name).classList.remove("hidden");
+
+ document.querySelectorAll(".nav button")
+ .forEach(x=>x.classList.remove("active"));
+
+ btn.classList.add("active");
+}
 
 function openModal(type){
 
-  currentAction = type;
+ action=type;
+ document.getElementById("modal").style.display="flex";
 
-  document.getElementById("modal").style.display =
-    "flex";
+ document.getElementById("modalTitle").innerText=
+ type==="deposit"?"واریز":"برداشت";
 
-  document.getElementById("modalTitle").innerText =
-    type === "deposit"
-      ? "Demo Deposit"
-      : "Demo Withdraw";
-
-  document.getElementById("amount").value = "";
-
+ document.getElementById("amount").value="";
 }
-
 
 function closeModal(){
-
-  document.getElementById("modal").style.display =
-    "none";
-
+ document.getElementById("modal").style.display="none";
 }
 
+function submitTx(){
 
-/* =========================
-   TRANSACTION
-========================= */
+ let amount=Number(document.getElementById("amount").value);
 
-function processTransaction(){
+ if(amount<=0){
+   alert("مبلغ معتبر وارد کنید");
+   return;
+ }
 
-  const amount =
-    Number(document.getElementById("amount").value);
+ if(action==="deposit"){
+   alert("این نسخه هنوز واریز واقعی را انجام نمی‌دهد.");
+ }
 
-  if(!amount || amount <= 0){
+ if(action==="withdraw"){
+   alert("این نسخه هنوز برداشت واقعی را انجام نمی‌دهد.");
+ }
 
-    alert("Enter a valid amount.");
-
-    return;
-
-  }
-
-
-  if(currentAction === "deposit"){
-
-    balance += amount;
-
-    addTransaction(
-      "Demo Deposit",
-      "+" + formatMoney(amount),
-      "deposit"
-    );
-
-  }
-
-
-  if(currentAction === "withdraw"){
-
-    if(amount > balance){
-
-      alert("Insufficient demo balance.");
-
-      return;
-
-    }
-
-    balance -= amount;
-
-    addTransaction(
-      "Demo Withdraw",
-      "-" + formatMoney(amount),
-      "withdraw"
-    );
-
-  }
-
-
-  updateBalance();
-
-  closeModal();
-
+ closeModal();
 }
 
+function activate(amount){
 
-/* =========================
-   TRANSACTION HISTORY
-========================= */
+ if(balance<amount){
+   alert("موجودی کافی نیست");
+   return;
+ }
 
-function addTransaction(
-  title,
-  amount,
-  type
-){
+ balance-=amount;
+ investment+=amount;
 
-  const history =
-    document.getElementById("history");
+ update();
 
-  const div =
-    document.createElement("div");
+ alert("سرمایه‌گذاری در حالت رابط کاربری فعال شد.");
 
-  div.className =
-    "transaction";
-
-  const date =
-    new Date().toLocaleString();
-
-  div.innerHTML = `
-
-    <div class="tx-left">
-
-      <div class="tx-title">
-        ${title}
-      </div>
-
-      <div class="tx-date">
-        ${date}
-      </div>
-
-    </div>
-
-    <div class="${type}">
-      ${amount}
-    </div>
-
-  `;
-
-  history.prepend(div);
-
+ page("invest",document.querySelectorAll(".nav button")[1]);
 }
 
+function claim(){
 
-/* =========================
-   DEMO INVESTMENT
-========================= */
+ if(investment<=0){
+   alert("ابتدا یک سرمایه‌گذاری فعال کنید.");
+   return;
+ }
 
-function invest(amount){
+ /*
+  بازده واقعی عمداً اینجا تولید نمی‌شود.
+  پس از اتصال Backend، مقدار واقعی از سرور دریافت خواهد شد.
+ */
 
-  if(balance < amount){
-
-    alert(
-      "Not enough demo balance."
-    );
-
-    return;
-
-  }
-
-
-  balance -= amount;
-
-  updateBalance();
-
-
-  addTransaction(
-    "Demo Investment",
-    "-" + formatMoney(amount),
-    "withdraw"
-  );
-
-
-  alert(
-    "Demo investment activated."
-  );
-
+ alert("محاسبه بازده پس از اتصال Backend انجام می‌شود.");
 }
 
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function hideAllPages(){
-
-  document
-    .getElementById("homePage")
-    .classList.add("hidden");
-
-  document
-    .getElementById("investmentPage")
-    .classList.add("hidden");
-
-  document
-    .getElementById("walletPage")
-    .classList.add("hidden");
-
-  document
-    .getElementById("profilePage")
-    .classList.add("hidden");
-
+function changeLang(){
+ alert("در نسخه بعدی انتخاب زبان فارسی / English اضافه می‌شود.");
 }
 
-
-function showPage(page,button){
-
-  hideAllPages();
-
-
-  if(page === "home"){
-
-    document
-      .getElementById("homePage")
-      .classList.remove("hidden");
-
-  }
-
-
-  if(page === "investment"){
-
-    document
-      .getElementById("investmentPage")
-      .classList.remove("hidden");
-
-  }
-
-
-  if(page === "wallet"){
-
-    document
-      .getElementById("walletPage")
-      .classList.remove("hidden");
-
-  }
-
-
-  if(page === "profile"){
-
-    document
-      .getElementById("profilePage")
-      .classList.remove("hidden");
-
-  }
-
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(
-      btn => btn.classList.remove("active")
-    );
-
-
-  button.classList.add("active");
-
-}
-
-
-/* =========================
-   HOME
-========================= */
-
-function goHome(){
-
-  const firstButton =
-    document.querySelector(".nav button");
-
-  showPage(
-    "home",
-    firstButton
-  );
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-updateBalance();
+update();
 
 </script>
 
